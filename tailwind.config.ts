@@ -52,6 +52,19 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
+				dental: {
+					50: '#e6f7fa',
+					100: '#cceef4',
+					200: '#99dde9',
+					300: '#66cbe0',
+					400: '#33bbd6',
+					500: '#0eaacc',
+					600: '#0b88a3',
+					700: '#08667a',
+					800: '#054352',
+					900: '#032129',
+					950: '#021117'
+				},
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',
