@@ -9,6 +9,7 @@ import { TestimonialsSection } from "../components/home/TestimonialsSection";
 import { ContactSection } from "../components/home/ContactSection";
 import { DentalClinicSchema } from "../components/seo/SchemaMarkup";
 import { Helmet } from "react-helmet";
+import { TeamSection } from "../components/home/TeamSection";
 
 const Home = () => {
   return (
@@ -22,6 +23,7 @@ const Home = () => {
       <main className="flex-grow">
         <HeroSection />
         <AboutSection />
+        <TeamSection />
         <ServicesSection />
         <SmileSimulationSection />
         <TestimonialsSection />
