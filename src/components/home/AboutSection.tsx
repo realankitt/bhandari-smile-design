@@ -1,9 +1,6 @@
-
 import { UserIcon } from "lucide-react";
-
 export function AboutSection() {
-  return (
-    <section id="about" className="section-padding bg-gray-50">
+  return <section id="about" className="section-padding bg-gray-50 rounded-2xl">
       <div className="container mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           <div className="space-y-6">
@@ -32,22 +29,13 @@ export function AboutSection() {
           
           <div className="grid grid-cols-2 gap-4">
             <div className="rounded-2xl overflow-hidden shadow-lg transform hover:scale-105 transition duration-300">
-              <img 
-                src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?q=80&w=800&auto=format&fit=crop" 
-                alt="Modern dental clinic interior" 
-                className="w-full h-full object-cover"
-              />
+              <img src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?q=80&w=800&auto=format&fit=crop" alt="Modern dental clinic interior" className="w-full h-full object-cover" />
             </div>
             <div className="rounded-2xl overflow-hidden shadow-lg transform translate-y-8 hover:scale-105 transition duration-300">
-              <img 
-                src="https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?q=80&w=800&auto=format&fit=crop" 
-                alt="Advanced dental technology" 
-                className="w-full h-full object-cover"
-              />
+              <img src="https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?q=80&w=800&auto=format&fit=crop" alt="Advanced dental technology" className="w-full h-full object-cover" />
             </div>
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 }
