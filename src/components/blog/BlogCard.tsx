@@ -2,6 +2,7 @@
 import { CalendarIcon } from "lucide-react";
 import { Card, CardContent, CardFooter, CardHeader } from "../ui/card";
 import { Button } from "../ui/button";
+import { Link } from "react-router-dom";
 
 type BlogCardProps = {
   title: string;
@@ -30,7 +31,7 @@ export function BlogCard({ title, excerpt, date, image, category, slug }: BlogCa
       
       <CardHeader className="pt-6 pb-3">
         <h3 className="text-xl font-bold line-clamp-2 hover:text-dental-600 transition-colors">
-          <a href={`/blog/${slug}`}>{title}</a>
+          <Link to={`/blog/${slug}`}>{title}</Link>
         </h3>
       </CardHeader>
       
@@ -51,7 +52,7 @@ export function BlogCard({ title, excerpt, date, image, category, slug }: BlogCa
           asChild
           className="text-dental-600 font-medium p-0 h-auto hover:text-dental-700"
         >
-          <a href={`/blog/${slug}`}>Read More →</a>
+          <Link to={`/blog/${slug}`}>Read More →</Link>
         </Button>
       </CardFooter>
     </Card>
