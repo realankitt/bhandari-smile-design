@@ -1,96 +1,128 @@
 
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { CalendarIcon, ArrowLeftIcon } from "lucide-react";
-import { Button } from "../components/ui/button";
+import { BlogHeader } from "../components/blog/BlogHeader";
+import { Footer } from "../components/layout/Footer";
 import { Helmet } from "react-helmet";
+import { CalendarIcon, ArrowLeftIcon } from "lucide-react";
 
-// Hardcoded blog posts — should be refactored to use a backend/CMS in the future
-const posts = [
+// Example article data (replace/add more as needed)
+const articles = [
   {
+    slug: "benefits-invisalign-over-traditional-braces",
     title: "The Benefits of Invisalign Over Traditional Braces",
+    coverImage: "https://images.unsplash.com/photo-1606811841689-23dfddce3e95?q=80&w=800&auto=format&fit=crop",
+    date: "April 10, 2025",
+    category: "Invisalign",
     excerpt:
       "Exploring why Invisalign clear aligners are becoming the preferred choice for teeth straightening compared to metal braces. Learn about comfort, aesthetics, and treatment time advantages.",
-    date: "April 10, 2025",
-    image:
-      "https://images.unsplash.com/photo-1606811841689-23dfddce3e95?q=80&w=800&auto=format&fit=crop",
-    category: "Invisalign",
-    slug: "benefits-invisalign-over-traditional-braces",
-    content: `
-      <p><strong>Invisalign</strong> offers a discreet, comfortable alternative to traditional metal braces. Many patients in Pune and around the world are choosing Invisalign because:</p>
-      <ul class="list-disc list-inside my-4">
-        <li><b>Nearly invisible:</b> Wear your aligners confidently in public, school, or work.</li>
-        <li><b>Removable:</b> Enjoy meals without restrictions and maintain your oral hygiene routine easily.</li>
-        <li><b>Comfortable:</b> No sharp wires or brackets to irritate your gums or cheeks.</li>
-        <li><b>Faster treatment (in many cases):</b> See results in as little as 6–18 months for typical treatments.</li>
-      </ul>
-      <p>At Bhandari Dental Clinic, we specialize in authentic Invisalign therapy, ensuring precise digital planning and guided results. Ready to transform your smile?</p>
-    `,
+    author: "Dr. Tanmay Bhandari",
+    content: (
+      <>
+        <p>
+          When it comes to achieving a straighter smile, Invisalign clear aligners have transformed the way people approach orthodontic treatment.
+          Unlike traditional metal braces, Invisalign is nearly invisible, removable, and offers a more comfortable experience for patients.
+        </p>
+        <h2 className="heading-md mt-8 mb-3">Why Choose Invisalign?</h2>
+        <ul className="list-disc pl-6 mb-4 text-gray-700">
+          <li>Virtually invisible aligners for a discreet treatment experience</li>
+          <li>Removable—enjoy your favorite foods and maintain oral hygiene easily</li>
+          <li>Fewer clinic visits required compared to metal braces</li>
+          <li>Shorter treatment times for many cases</li>
+          <li>Custom-made for comfort and effectiveness</li>
+        </ul>
+        <p>
+          At Bhandari Dental Clinic, we are Pune&#39;s Invisalign experts. Every patient receives a personalized treatment plan, digital smile simulation, and dedicated support for the entire process. If you&#39;re considering teeth alignment, book a consultation with Dr. Tanmay Bhandari and discover how Invisalign can transform your smile.
+        </p>
+        <div className="mt-8">
+          <a
+            href="https://wa.me/+919999999999?text=Hi,%20I'm%20interested%20in%20learning%20more%20about%20Invisalign%20clear%20aligners%20at%20Bhandari%20Dental%20Clinic."
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block bg-dental-500 text-white font-semibold px-5 py-3 rounded-md shadow hover:bg-dental-600 transition-colors"
+          >
+            Book Your Invisalign Consultation
+          </a>
+        </div>
+      </>
+    ),
   },
-  {
-    title: "Understanding Guided Dental Implants: Technology & Benefits",
-    excerpt:
-      "A comprehensive look at how guided implant technology is revolutionizing tooth replacement procedures, offering greater precision, reduced recovery time, and better outcomes.",
-    date: "March 15, 2025",
-    image:
-      "https://images.unsplash.com/photo-1579683563554-ca0f85d87e95?q=80&w=800&auto=format&fit=crop",
-    category: "Dental Implants",
-    slug: "understanding-guided-dental-implants",
-    content: `
-      <p>Guided dental implants use advanced digital imaging to plan and place implants with exceptional precision. The result is a more comfortable experience and a predictable, natural-looking outcome.</p>
-      <ul class="list-disc list-inside my-4">
-        <li><b>Precision Placement:</b> Digital scans allow the perfect fit in your jaw.</li>
-        <li><b>Faster Recovery:</b> Minimally invasive, often with less pain and swelling.</li>
-        <li><b>Reliable Results:</b> Consistently strong, long-lasting teeth replacements.</li>
-      </ul>
-      <p>Discover the future of smile restoration with Bhandari Dental Clinic’s guided implant solutions in Pune.</p>
-    `,
-  },
-  // You can add the rest of the posts here as needed... (copy post objects from Blog.tsx and add a `content` string to each)
+  // Add more articles here
 ];
 
-export default function BlogArticle() {
-  const { slug } = useParams();
+const BlogArticle = () => {
+  const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
-  const post = posts.find((p) => p.slug === slug);
 
-  if (!post) {
+  const article = articles.find((a) => a.slug === slug);
+
+  if (!article) {
     return (
-      <div className="container mx-auto max-w-2xl py-32 text-center">
-        <h2 className="text-2xl font-bold mb-4">Article not found</h2>
-        <Button onClick={() => navigate("/blog")} className="mt-4">
-          <ArrowLeftIcon className="mr-2" /> Back to Blog
-        </Button>
+      <div className="min-h-screen flex flex-col">
+        <BlogHeader />
+        <main className="flex-grow flex items-center justify-center pt-32 pb-20 bg-gray-50">
+          <div className="text-center">
+            <h1 className="heading-lg mb-4">Article Not Found</h1>
+            <p className="text-gray-600 mb-6">The blog article you are looking for does not exist.</p>
+            <button
+              className="inline-flex items-center gap-2 px-4 py-2 bg-dental-500 text-white rounded hover:bg-dental-600"
+              onClick={() => navigate("/blog")}
+            >
+              <ArrowLeftIcon size={18} />
+              Back to Blog
+            </button>
+          </div>
+        </main>
+        <Footer />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-white pb-24">
+    <div className="min-h-screen flex flex-col bg-white">
       <Helmet>
-        <title>{post.title} | Bhandari Dental Clinic Blog</title>
-        <meta name="description" content={post.excerpt} />
-        <meta name="keywords" content={`Dentistry, ${post.category}, Pune, Bhandari Dental Clinic, Dr. Tanmay Bhandari`} />
+        <title>{article.title} | Bhandari Dental Clinic</title>
+        <meta name="description" content={article.excerpt} />
+        <meta name="keywords" content={`${article.category}, Invisalign, Dental Blog, Bhandari Dental Clinic, Pune`} />
+        <meta name="author" content={article.author} />
+        {/* Article schema organization could be added here */}
       </Helmet>
-      <nav className="pt-10 pb-4 px-4 max-w-3xl mx-auto">
-        <Link to="/blog" className="inline-flex items-center text-dental-600 hover:text-dental-700 font-medium">
-          <ArrowLeftIcon className="w-4 h-4 mr-2" /> Blog Home
-        </Link>
-      </nav>
-      <article className="max-w-3xl mx-auto bg-white py-8 px-4 rounded-lg shadow-lg">
-        <img
-          src={post.image}
-          alt={post.title}
-          className="w-full h-64 object-cover rounded-lg mb-6 shadow"
-        />
-        <div className="flex items-center justify-between mb-4">
-          <span className="bg-dental-500 text-white text-xs px-3 py-1 rounded">{post.category}</span>
-          <span className="flex items-center text-sm text-gray-500">
-            <CalendarIcon size={14} className="mr-1" /> {post.date}
+      <BlogHeader />
+      <main className="flex-grow pt-28 pb-16">
+        <div className="container mx-auto px-4 max-w-3xl">
+          <button
+            className="flex items-center gap-2 text-dental-600 hover:text-dental-700 text-sm font-medium mb-6"
+            onClick={() => navigate("/blog")}
+          >
+            <ArrowLeftIcon size={16} />
+            Back to all articles
+          </button>
+          <div className="rounded-lg overflow-hidden shadow mb-8 h-64 bg-gray-100 flex items-center justify-center">
+            <img
+              src={article.coverImage}
+              alt={article.title}
+              className="w-full h-full object-cover"
+              loading="eager"
+            />
+          </div>
+          <span className="mb-3 inline-block bg-dental-100 text-dental-600 text-xs font-semibold px-3 py-1 rounded shadow-sm">
+            {article.category}
           </span>
+          <h1 className="heading-lg mb-3">{article.title}</h1>
+          <div className="flex items-center gap-4 text-gray-500 text-sm mb-10">
+            <span className="flex items-center gap-1">
+              <CalendarIcon size={16} /> {article.date}
+            </span>
+            <span>•</span>
+            <span>By {article.author}</span>
+          </div>
+          <article className="prose prose-blue max-w-none prose-img:rounded-lg prose-h2:mt-10 prose-h2:mb-3 prose-p:mb-4">
+            {article.content}
+          </article>
         </div>
-        <h1 className="text-3xl md:text-4xl font-bold mb-4">{post.title}</h1>
-        <div className="text-gray-700 leading-relaxed space-y-6" dangerouslySetInnerHTML={{ __html: post.content }} />
-      </article>
+      </main>
+      <Footer />
     </div>
   );
-}
+};
+
+export default BlogArticle;
