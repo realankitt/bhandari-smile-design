@@ -1,0 +1,193 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bhandari Dental Clinic | Invisalign & Dental Implants Specialist in Pune</title>
+    <meta name="description" content="Bhandari Dental Clinic in Pune specializes in Invisalign clear aligners, guided dental implants, and complete smile makeovers. Schedule your consultation today.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container header-content">
+            <div class="logo">
+                <div class="logo-circle">BD</div>
+                <span class="logo-text">Bhandari Dental</span>
+            </div>
+            <nav class="nav-desktop">
+                <a href="#about">About</a>
+                <a href="#services">Services</a>
+                <a href="#simulation">Smile Simulation</a>
+                <a href="#testimonials">Testimonials</a>
+                <a href="#blog">Blog</a>
+                <a href="#contact">Contact</a>
+            </nav>
+            <button class="btn btn-primary" onclick="openWhatsApp()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                </svg>
+                Book Consultation
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container hero-content">
+                <div class="hero-text">
+                    <h1>Transform Your Smile With <span class="gradient-text">Expert Care</span></h1>
+                    <p>Bhandari Dental Clinic specializes in Invisalign clear aligners, guided dental implants, and complete smile makeovers in Pune.</p>
+                    <div class="button-group">
+                        <button class="btn btn-primary" onclick="openWhatsApp()">Book a Consultation</button>
+                        <button class="btn btn-outline" onclick="scrollToSection('services')">Explore Services</button>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <img src="https://images.unsplash.com/photo-1606811971618-4486d14f3f99?q=80&w=1000&auto=format&fit=crop" 
+                         alt="Beautiful smile transformation">
+                </div>
+            </div>
+        </section>
+
+        <!-- Team Section -->
+        <section id="team" class="section">
+            <div class="container">
+                <h2 class="section-title">Meet Our <span class="gradient-text">Team</span></h2>
+                <div class="team-grid">
+                    <div class="team-card">
+                        <img src="https://res.cloudinary.com/dqeh7epvc/image/upload/v1713706029/sneha-bhandari_srx6wc.jpg" 
+                             alt="Dr. Sneha Bhandari">
+                        <h3>Dr. Sneha Bhandari</h3>
+                        <p class="degree">B.D.S.</p>
+                        <p class="description">25+ years of experience in creating beautiful smiles with a focus on holistic care and patient education.</p>
+                    </div>
+                    <div class="team-card">
+                        <img src="https://res.cloudinary.com/dqeh7epvc/image/upload/v1713706029/sameer-bhandari_toskph.jpg" 
+                             alt="Dr. Sameer Bhandari">
+                        <h3>Dr. Sameer Bhandari</h3>
+                        <p class="degree">B.D.S.</p>
+                        <p class="description">Over 25 years of experience with expertise in dental aligners and modern treatment techniques.</p>
+                    </div>
+                    <div class="team-card">
+                        <img src="/lovable-uploads/db209d0f-8706-4553-8669-f415a5da0dd7.png" 
+                             alt="Dr. Tanmay Bhandari">
+                        <h3>Dr. Tanmay Bhandari</h3>
+                        <p class="degree">M.D.S. Orthodontics</p>
+                        <p class="description">Specializes in Invisalign and advanced orthodontic procedures with a patient-first approach.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section id="services" class="section">
+            <div class="container">
+                <h2 class="section-title">Our Specialized <span class="gradient-text">Services</span></h2>
+                <div class="services-grid">
+                    <div class="service-card">
+                        <div class="service-icon">👄</div>
+                        <h3>Invisalign Clear Aligners</h3>
+                        <p>Transform your smile with virtually invisible aligners. Straighten your teeth comfortably without metal braces.</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">🦷</div>
+                        <h3>Guided Dental Implants</h3>
+                        <p>Replace missing teeth with precision-guided implants that look, feel, and function like natural teeth.</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">✨</div>
+                        <h3>Smile Makeovers</h3>
+                        <p>Comprehensive treatment to transform your smile through a combination of cosmetic procedures.</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">🔍</div>
+                        <h3>Preventive Dentistry</h3>
+                        <p>Regular cleanings, exams, and preventive care to maintain oral health and prevent future problems.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="section">
+            <div class="container">
+                <h2 class="section-title">Visit Our <span class="gradient-text">Clinic</span></h2>
+                <div class="contact-grid">
+                    <div class="contact-info">
+                        <div class="info-item">
+                            <div class="icon">📍</div>
+                            <div>
+                                <h4>Address</h4>
+                                <p>123 Dental Avenue, Koregaon Park, Pune 411001</p>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="icon">📞</div>
+                            <div>
+                                <h4>Phone</h4>
+                                <p>+91 9999 999 999</p>
+                            </div>
+                        </div>
+                        <div class="hours">
+                            <h4>Opening Hours</h4>
+                            <p>Monday - Friday: 9:00 AM - 8:00 PM</p>
+                            <p>Saturday: 10:00 AM - 6:00 PM</p>
+                            <p>Sunday: Closed</p>
+                        </div>
+                        <button class="btn btn-primary" onclick="openWhatsApp()">Chat with Us on WhatsApp</button>
+                    </div>
+                    <div class="map">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d30263.175384852634!2d73.8557592!3d18.5204303!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2c147b8b3a3bf%3A0x6f7fdcc8e4d6c77e!2sKoregaon%20Park%2C%20Pune%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1698130842688!5m2!1sen!2sin" 
+                                width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-info">
+                    <div class="logo">
+                        <span class="logo-text">Bhandari Dental</span>
+                    </div>
+                    <p>Transforming smiles with expert care and cutting-edge dental technology in Pune.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <a href="#about">About Us</a>
+                    <a href="#services">Services</a>
+                    <a href="#simulation">Smile Simulation</a>
+                    <a href="#testimonials">Testimonials</a>
+                    <a href="#blog">Blog</a>
+                </div>
+                <div class="footer-contact">
+                    <h4>Contact Us</h4>
+                    <p>123 Dental Avenue, Koregaon Park</p>
+                    <p>Pune 411001</p>
+                    <p>+91 9999 999 999</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Bhandari Dental Clinic. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function openWhatsApp() {
+            window.open("https://wa.me/+919999999999?text=Hi,%20I'm%20interested%20in%20a%20consultation%20at%20Bhandari%20Dental%20Clinic.", "_blank");
+        }
+
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
