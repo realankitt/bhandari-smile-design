@@ -1,20 +1,21 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
+    --background: 220 30% 98%;
     --foreground: 222.2 84% 4.9%;
 
-    --primary: 270 85% 65%; // Vivid Purple
+    --primary: 220 80% 50%; // Professional Blue
     --primary-foreground: 210 40% 98%;
 
-    --secondary: 270 60% 98%;
-    --secondary-foreground: 270 47.4% 11.2%;
+    --secondary: 220 60% 95%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
 
-    // More subtle purple-based color scheme
-    --accent: 270 85% 65%;
+    // More refined blue-based color scheme
+    --accent: 220 80% 60%;
     --accent-foreground: 210 40% 98%;
   }
 
