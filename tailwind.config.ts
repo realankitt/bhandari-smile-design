@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -52,28 +53,18 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
+				// More refined color palette
 				dental: {
-					50: '#e6fff0',
-					100: '#ccffe1',
-					200: '#99ffc4',
-					300: '#66ffa6',
-					400: '#33ff89',
-					500: '#00ff6b',
-					600: '#00cc56',
-					700: '#009940',
-					800: '#00662b',
-					900: '#003315',
-					950: '#001a0b'
-				},
-				sidebar: {
-					DEFAULT: 'hsl(var(--sidebar-background))',
-					foreground: 'hsl(var(--sidebar-foreground))',
-					primary: 'hsl(var(--sidebar-primary))',
-					'primary-foreground': 'hsl(var(--sidebar-primary-foreground))',
-					accent: 'hsl(var(--sidebar-accent))',
-					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
-					border: 'hsl(var(--sidebar-border))',
-					ring: 'hsl(var(--sidebar-ring))'
+					50: '#F1F0FB',     // Soft Purple background
+					100: '#D6BCFA',    // Light Purple
+					200: '#9b87f5',    // Primary Purple
+					300: '#7E69AB',    // Secondary Purple
+					400: '#6E59A5',    // Tertiary Purple
+					500: '#8B5CF6',    // Vivid Purple (accent)
+					600: '#1A1F2C',    // Dark Purple
+					700: '#403E43',    // Charcoal Gray
+					800: '#221F26',    // Dark Charcoal
+					900: '#000000'     // Pure Black
 				}
 			},
 			borderRadius: {
@@ -83,20 +74,12 @@ export default {
 			},
 			keyframes: {
 				'accordion-down': {
-					from: {
-						height: '0'
-					},
-					to: {
-						height: 'var(--radix-accordion-content-height)'
-					}
+					from: { height: '0' },
+					to: { height: 'var(--radix-accordion-content-height)' }
 				},
 				'accordion-up': {
-					from: {
-						height: 'var(--radix-accordion-content-height)'
-					},
-					to: {
-						height: '0'
-					}
+					from: { height: 'var(--radix-accordion-content-height)' },
+					to: { height: '0' }
 				}
 			},
 			animation: {
@@ -107,3 +90,4 @@ export default {
 	},
 	plugins: [require("tailwindcss-animate")],
 } satisfies Config;
+
