@@ -1,4 +1,3 @@
-
 export function DentalClinicSchema() {
   return (
     <script
