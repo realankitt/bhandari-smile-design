@@ -1,11 +1,11 @@
 
-import { ListCheck, Laptop, Stethoscope, SmileIcon } from "lucide-react";
+import { Shield, Laptop, Stethoscope, SmileIcon } from "lucide-react";
 
 const features = [
   {
     title: "Conservative Approach",
     description: "We prioritize minimally invasive treatments, preserving natural tooth structure whenever possible.",
-    icon: ListCheck
+    icon: Shield
   },
   {
     title: "Digital Dentistry",
@@ -33,13 +33,15 @@ export function KeyFeaturesSection() {
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {features.map((feature, index) => (
-            <div key={index} className="flex gap-4 p-6 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all">
+            <div key={index} className="flex gap-6 p-8 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all group">
               <div className="flex-shrink-0">
-                <feature.icon className="w-8 h-8 text-dental-500" />
+                <div className="w-12 h-12 rounded-xl bg-dental-50 flex items-center justify-center text-dental-600 group-hover:bg-dental-100 transition-colors">
+                  <feature.icon className="w-6 h-6" />
+                </div>
               </div>
               <div>
-                <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
-                <p className="text-gray-600">{feature.description}</p>
+                <h3 className="text-xl font-semibold mb-3">{feature.title}</h3>
+                <p className="text-gray-600 leading-relaxed">{feature.description}</p>
               </div>
             </div>
           ))}

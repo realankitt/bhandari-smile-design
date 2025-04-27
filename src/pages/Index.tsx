@@ -1,12 +1,9 @@
-
 import { Header } from "../components/layout/Header";
 import { Footer } from "../components/layout/Footer";
 import { HeroSection } from "../components/home/HeroSection";
-import { AboutSection } from "../components/home/AboutSection";
 import { KeyFeaturesSection } from "../components/home/KeyFeaturesSection";
-import { ServicesSection } from "../components/home/ServicesSection";
-import { SmileSimulationSection } from "../components/home/SmileSimulationSection";
-import { TestimonialsSection } from "../components/home/TestimonialsSection";
+import { MissionSection } from "../components/home/MissionSection";
+import { UniqueFeaturesSection } from "../components/home/UniqueFeaturesSection";
 import { ContactSection } from "../components/home/ContactSection";
 import { DentalClinicSchema } from "../components/seo/SchemaMarkup";
 import { Helmet } from "react-helmet";
@@ -26,10 +23,8 @@ const Home = () => {
       <main className="flex-grow">
         <HeroSection />
         <KeyFeaturesSection />
-        <AboutSection />
-        <ServicesSection />
-        <SmileSimulationSection />
-        <TestimonialsSection />
+        <MissionSection />
+        <UniqueFeaturesSection />
         <ContactSection />
       </main>
       <Footer />
