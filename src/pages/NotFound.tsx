@@ -36,7 +36,7 @@ const NotFound = () => {
             className="border-dental-200 hover:bg-dental-50 text-dental-800"
           >
             <a 
-              href="https://wa.me/+919999999999?text=Hi,%20I'm%20having%20trouble%20finding%20a%20page%20on%20your%20website."
+              href="hhttps://api.whatsapp.com/send?phone=919834604977"
               target="_blank"
               rel="noopener noreferrer"
             >

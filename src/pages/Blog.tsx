@@ -1,4 +1,3 @@
-
 import { BlogHeader } from "../components/blog/BlogHeader";
 import { Footer } from "../components/layout/Footer";
 import { BlogCard } from "../components/blog/BlogCard";

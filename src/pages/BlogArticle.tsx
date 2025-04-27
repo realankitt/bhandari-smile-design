@@ -1,4 +1,3 @@
-
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { BlogHeader } from "../components/blog/BlogHeader";
 import { Footer } from "../components/layout/Footer";
