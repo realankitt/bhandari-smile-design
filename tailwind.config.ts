@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -52,7 +53,6 @@ export default {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))'
         },
-        // Updated dental color palette with blue tones
         dental: {
           50: '#F0F4FF',     // Soft Light Blue background
           100: '#BED7FF',    // Light Blue
@@ -89,3 +89,4 @@ export default {
   },
   plugins: [require("tailwindcss-animate")],
 } satisfies Config;
+
