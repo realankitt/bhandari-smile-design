@@ -26,13 +26,13 @@ const team = [
   },
   {
     name: "Dr. Tanmay Bhandari",
-    degree: "M.D.S. Orthodontics",
+    degree: "MBBS",
     image: "/lovable-uploads/db209d0f-8706-4553-8669-f415a5da0dd7.png",
     description: [
-      "Dr. Tanmay Bhandari is an Orthodontist with a passion for improving smiles with advanced and holistic treatments.",
-      "He specializes in Invisalign and advanced orthodontic procedures, aiming for precision and patient comfort.",
-      "A regular contributor to innovations in the field of orthodontics, he combines evidence-based techniques with a patient-first approach.",
-      "He believes in raising the standards of dental care through compassionate service and continuous learning.",
+      "Healthcare Visionary transforming patient care through holistic approaches",
+      "Emphasizing prevention, education, and empowerment for optimal health",
+      "Committed to integrative healthcare and patient empowerment",
+      "Focusing on patient wellness, not just disease treatment",
     ]
   }
 ];

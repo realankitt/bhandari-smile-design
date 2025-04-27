@@ -29,23 +29,18 @@ export function ServicesSection() {
   const services = [
     {
       title: "Invisalign Clear Aligners",
-      description: "Transform your smile with virtually invisible aligners. Straighten your teeth comfortably without metal braces.",
+      description: "Transform your smile with virtually invisible aligners. Experience comfortable, precise teeth straightening with Invisalign's advanced technology.",
       icon: "👄"
     },
     {
       title: "Guided Dental Implants",
-      description: "Replace missing teeth with precision-guided implants that look, feel, and function like natural teeth.",
+      description: "Advanced, precision-guided implant procedures using state-of-the-art technology for optimal placement and long-lasting results.",
       icon: "🦷"
     },
     {
-      title: "Smile Makeovers",
-      description: "Comprehensive treatment to transform your smile through a combination of cosmetic procedures tailored to you.",
+      title: "Full Mouth Rehabilitation",
+      description: "Comprehensive treatment to restore both function and aesthetics, addressing multiple dental issues for a complete smile transformation.",
       icon: "✨"
-    },
-    {
-      title: "Preventive Dentistry",
-      description: "Regular cleanings, exams, and preventive care to maintain oral health and prevent future problems.",
-      icon: "🔍"
     }
   ];
 
@@ -55,11 +50,11 @@ export function ServicesSection() {
         <div className="text-center max-w-3xl mx-auto mb-16">
           <h2 className="heading-lg mb-4">Our Specialized <span className="gradient-text">Services</span></h2>
           <p className="text-gray-600">
-            We provide cutting-edge dental treatments with a focus on aesthetic results and patient comfort. Our specialized services are designed to give you the smile you've always wanted.
+            We provide cutting-edge dental treatments with a focus on aesthetic results and patient comfort.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {services.map((service, index) => (
             <ServiceCard
               key={index}

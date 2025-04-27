@@ -1,4 +1,3 @@
-
 import { Header } from "../components/layout/Header";
 import { Footer } from "../components/layout/Footer";
 import { HeroSection } from "../components/home/HeroSection";
@@ -10,6 +9,7 @@ import { ContactSection } from "../components/home/ContactSection";
 import { DentalClinicSchema } from "../components/seo/SchemaMarkup";
 import { Helmet } from "react-helmet";
 import { TeamSection } from "../components/home/TeamSection";
+import { BlogPreviewSection } from "../components/home/BlogPreviewSection";
 
 const Home = () => {
   return (
@@ -26,6 +26,7 @@ const Home = () => {
         <TeamSection />
         <ServicesSection />
         <SmileSimulationSection />
+        <BlogPreviewSection />
         <TestimonialsSection />
         <ContactSection />
       </main>
