@@ -5,7 +5,7 @@ export function MissionSection() {
       <div className="container mx-auto">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="heading-lg mb-8">
-            Our <span className="gradient-text">Mission</span>
+            Our <span className="text-dental-500">Mission</span>
           </h2>
           <p className="text-lg text-gray-600 leading-relaxed">
             At Bhandari Dental Clinic, we're dedicated to providing personalized, high-quality dental care 

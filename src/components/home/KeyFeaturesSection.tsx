@@ -29,7 +29,7 @@ export function KeyFeaturesSection() {
     <section id="features" className="section-padding bg-gray-50">
       <div className="container mx-auto">
         <h2 className="heading-lg text-center mb-12">
-          Our <span className="gradient-text">Key Features</span>
+          Our <span className="text-dental-500">Key Features</span>
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {features.map((feature, index) => (

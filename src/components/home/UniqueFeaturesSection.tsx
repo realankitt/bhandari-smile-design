@@ -24,7 +24,7 @@ export function UniqueFeaturesSection() {
     <section className="section-padding bg-white">
       <div className="container mx-auto">
         <h2 className="heading-lg text-center mb-12">
-          What Sets Us <span className="gradient-text">Apart</span>
+          What Sets Us <span className="text-dental-500">Apart</span>
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {uniqueFeatures.map((feature, index) => (
