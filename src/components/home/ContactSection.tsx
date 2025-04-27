@@ -62,7 +62,7 @@ export function ContactSection() {
             </div>
             
             <div>
-              <Button onClick={openWhatsApp} className="bg-dental-500 hover:bg-dental-600 w-full py-6 text-white flex items-center justify-center gap-2">
+              <Button onClick={openWhatsApp} className="bg-dental-500 hover:bg-dental-600 w-full py-6 text-white flex items-center justify-center gap-2 rounded-xl">
                 <MessageSquareIcon size={20} />
                 Chat with Us on WhatsApp
               </Button>
