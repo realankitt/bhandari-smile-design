@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -7,13 +8,13 @@
     --background: 220 30% 98%;
     --foreground: 222.2 84% 4.9%;
 
-    --primary: 220 80% 50%; // Professional Blue
+    --primary: 220 80% 50%; /* Professional Blue */
     --primary-foreground: 210 40% 98%;
 
     --secondary: 220 60% 95%;
     --secondary-foreground: 222.2 47.4% 11.2%;
 
-    // More refined blue-based color scheme
+    /* More refined blue-based color scheme */
     --accent: 220 80% 60%;
     --accent-foreground: 210 40% 98%;
   }
@@ -28,7 +29,7 @@
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 220 85% 43%; // Deep Blue for dark mode
+    --primary: 220 85% 43%; /* Deep Blue for dark mode */
     --primary-foreground: 222.2 47.4% 11.2%;
 
     --secondary: 217.2 32.6% 17.5%;
