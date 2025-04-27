@@ -4,7 +4,7 @@ export function ContactSection() {
   const openWhatsApp = () => {
     window.open("https://api.whatsapp.com/send?phone=919834604977", "_blank");
   };
-  return <section id="contact" className="section-padding bg-white rounded-xl">
+  return <section id="contact" className="section-padding bg-white rounded-2xl">
       <div className="container mx-auto">
         <div className="text-center max-w-3xl mx-auto mb-12">
           <h2 className="heading-lg mb-4">
