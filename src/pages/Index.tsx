@@ -10,17 +10,15 @@ import { DentalClinicSchema } from "../components/seo/SchemaMarkup";
 import { Helmet } from "react-helmet";
 import { TeamSection } from "../components/home/TeamSection";
 import { BlogPreviewSection } from "../components/home/BlogPreviewSection";
-
 const Home = () => {
-  return (
-    <div className="min-h-screen flex flex-col">
+  return <div className="min-h-screen flex flex-col">
       <Helmet>
         <title>Bhandari Dental Clinic | Invisalign & Dental Implants Specialist in Pune</title>
         <meta name="description" content="Bhandari Dental Clinic in Pune specializes in Invisalign clear aligners, guided dental implants, and complete smile makeovers. Schedule your consultation today." />
         <DentalClinicSchema />
       </Helmet>
       <Header />
-      <main className="flex-grow">
+      <main className="flex-grow rounded-xl">
         <HeroSection />
         <AboutSection />
         <TeamSection />
@@ -31,8 +29,6 @@ const Home = () => {
         <ContactSection />
       </main>
       <Footer />
-    </div>
-  );
+    </div>;
 };
-
 export default Home;
