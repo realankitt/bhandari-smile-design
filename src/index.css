@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -8,7 +7,7 @@
     --background: 220 30% 98%;
     --foreground: 222.2 84% 4.9%;
 
-    --primary: 220 80% 50%; /* Professional Blue */
+    --primary: 189 57% 47%; /* #30a5bd */
     --primary-foreground: 210 40% 98%;
 
     --secondary: 220 60% 95%;
