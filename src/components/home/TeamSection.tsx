@@ -1,11 +1,10 @@
-
 import React from "react";
 
 const team = [
   {
     name: "Dr. Sneha Bhandari",
     degree: "B.D.S.",
-    image: "https://bhandari-smile-design.vercel.app/images/team/dr-sneha-bhandari.jpg",
+    image: "/images/dr-sneha-bhandari.jpg",
     description: [
       "Dr. Sneha Bhandari has been creating beautiful smiles for 25+ years and is passionate about preserving oral health.",
       "She has developed an outstanding capacity for clinical diagnostics and skills to provide targeted dental treatments.",
@@ -16,7 +15,7 @@ const team = [
   {
     name: "Dr. Sameer Bhandari",
     degree: "B.D.S.",
-    image: "https://bhandari-smile-design.vercel.app/images/team/dr-sameer-bhandari.jpg",
+    image: "/images/dr-sameer-bhandari.jpg",
     description: [
       "Dr. Sameer Bhandari has been practicing dentistry for over 25 years.",
       "His patient base includes people from all walks of life, both local and international. His work is highly appreciated and patients often return for various treatments.",
@@ -27,7 +26,7 @@ const team = [
   {
     name: "Dr. Tanmay Bhandari",
     degree: "MBBS",
-    image: "https://bhandari-smile-design.vercel.app/images/team/dr-tanmay-bhandari.jpg",
+    image: "/images/dr-tanmay-bhandari.jpg",
     description: [
       "Healthcare Visionary transforming patient care through holistic approaches",
       "Emphasizing prevention, education, and empowerment for optimal health",
