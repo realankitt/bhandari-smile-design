@@ -102,24 +102,24 @@ export function HeroSection() {
       {/* What Sets Us Apart Section */}
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
-          <h2 className="heading-lg text-center mb-12">
+          <h2 className="heading-lg text-center mb-16">
             What Sets Us <span className="gradient-text">Apart</span>
           </h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="p-6 rounded-lg">
-              <h3 className="heading-md mb-4">Expertise</h3>
+          <div className="grid md:grid-cols-3 gap-12 max-w-7xl mx-auto">
+            <div className="p-8 rounded-xl bg-white shadow-sm hover:shadow-md transition-shadow">
+              <h3 className="heading-md mb-6">Expertise</h3>
               <p className="text-gray-600">
                 Our team consists of experienced dentists with specialized training in modern dentistry techniques, including Invisalign.
               </p>
             </div>
-            <div className="p-6 rounded-lg">
-              <h3 className="heading-md mb-4">State-of-the-Art Facilities</h3>
+            <div className="p-8 rounded-xl bg-white shadow-sm hover:shadow-md transition-shadow">
+              <h3 className="heading-md mb-6">State-of-the-Art Facilities</h3>
               <p className="text-gray-600">
                 Our clinic is equipped with advanced digital dentistry tools and technology, including 3D scanning and printing for Invisalign treatments.
               </p>
             </div>
-            <div className="p-6 rounded-lg">
-              <h3 className="heading-md mb-4">Patient-Centric Approach</h3>
+            <div className="p-8 rounded-xl bg-white shadow-sm hover:shadow-md transition-shadow">
+              <h3 className="heading-md mb-6">Patient-Centric Approach</h3>
               <p className="text-gray-600">
                 We prioritize patient comfort, satisfaction, and education, ensuring informed decision-making and personalized care.
               </p>
