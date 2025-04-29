@@ -126,7 +126,7 @@ export function HeroSection() {
             <div className="p-8 rounded-xl bg-white shadow-sm hover:shadow-md transition-shadow">
               <h3 className="heading-md mb-6">State-of-the-Art Facilities</h3>
               <p className="text-gray-600">
-                Our clinic is equipped with advanced digital dentistry tools and technology, including 3D scanning and printing for Invisalign treatments.
+                By combining conservative approaches, digital dentistry, guided implant surgeries, and Invisalign services, Bhandari Dental Clinic offers comprehensive and cutting-edge dental care solutions in Pune.
               </p>
             </div>
             <div className="p-8 rounded-xl bg-white shadow-sm hover:shadow-md transition-shadow">
