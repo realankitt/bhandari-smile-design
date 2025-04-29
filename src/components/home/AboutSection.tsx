@@ -19,10 +19,6 @@ export function AboutSection() {
                 <div className="h-12 w-12 rounded-full bg-dental-100 flex items-center justify-center text-dental-600">
                   <UserIcon size={24} />
                 </div>
-                <div>
-                  <h3 className="font-bold text-lg">Dr. Tanmay Bhandari</h3>
-                  <p className="text-gray-600">Lead Dental Consultant</p>
-                </div>
               </div>
             </div>
           </div>

@@ -27,7 +27,7 @@ export function ContactSection() {
                   </div>
                   <div>
                     <p className="font-medium">Address</p>
-                    <p className="text-gray-600">123 Dental Avenue, Koregaon Park, Pune, Maharashtra 411001</p>
+                    <p className="text-gray-600">Bhandari Dental Clinic, Sujay Garden Commercial Centre, off No 24, Mukund Nagar, Pune, Maharashtra 411037</p>
                   </div>
                 </div>
                 
