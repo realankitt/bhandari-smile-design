@@ -42,7 +42,7 @@ const openWhatsApp = () => {
             </div>
             <div className="order-1 md:order-2 overflow-hidden rounded-2xl shadow-2xl">
               <img 
-                src="https://images.unsplash.com/photo-1606811971618-4486d14f3f99?q=80&w=1000&auto=format&fit=crop"
+                src="/images/dental-care.jpg"
                 alt="Beautiful smile transformation" 
                 className="w-full h-auto object-cover"
               />
