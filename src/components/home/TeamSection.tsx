@@ -28,10 +28,9 @@ const team = [
     degree: "MBBS",
     image: "/images/dr-tanmay-bhandari.jpg",
     description: [
-      "Healthcare Visionary transforming patient care through holistic approaches",
-      "Emphasizing prevention, education, and empowerment for optimal health",
-      "Committed to integrative healthcare and patient empowerment",
-      "Focusing on patient wellness, not just disease treatment",
+      "Healthcare Professional & Wellness Coach",
+      "Guiding patients towards optimal health through evidence-based holistic practices",
+      "Fostering a culture of wellness and self-care",
     ]
   }
 ];
