@@ -2,7 +2,7 @@ import { ServicesSection } from './ServicesSection';
 import { Button } from "../ui/button";
 
 export function HeroSection() {
-const openWhatsApp = () => {
+  const openWhatsApp = () => {
     window.open(
       "https://api.whatsapp.com/send?phone=919834604977",
       "_blank"

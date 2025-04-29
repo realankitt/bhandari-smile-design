@@ -2,7 +2,6 @@ import { Header } from "../components/layout/Header";
 import { Footer } from "../components/layout/Footer";
 import { HeroSection } from "../components/home/HeroSection";
 import { AboutSection } from "../components/home/AboutSection";
-import { ServicesSection } from "../components/home/ServicesSection";
 import { SmileSimulationSection } from "../components/home/SmileSimulationSection";
 import { TestimonialsSection } from "../components/home/TestimonialsSection";
 import { ContactSection } from "../components/home/ContactSection";
@@ -24,7 +23,6 @@ const Home = () => {
         <HeroSection />
         <AboutSection />
         <TeamSection />
-        <ServicesSection />
         <SmileSimulationSection />
         <BlogPreviewSection />
         <TestimonialsSection />
