@@ -16,9 +16,6 @@ export function AboutSection() {
             
             <div className="pt-4">
               <div className="flex items-center gap-4">
-                <div className="h-12 w-12 rounded-full bg-dental-100 flex items-center justify-center text-dental-600">
-                  <UserIcon size={24} />
-                </div>
               </div>
             </div>
           </div>
