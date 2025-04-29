@@ -73,24 +73,30 @@ export function HeroSection() {
       {/* Key Features Section */}
       <section className="py-16 bg-dental-50">
         <div className="container mx-auto px-4">
-          <h2 className="heading-lg text-center mb-12">
+          <h2 className="heading-lg text-center mb-16">
             Key <span className="gradient-text">Features</span>
           </h2>
-          <div className="grid md:grid-cols-4 gap-8">
-            <div className="p-6 rounded-lg">
-              <h3 className="heading-md mb-4">Conservative Approach</h3>
+          <div className="grid md:grid-cols-4 gap-12 max-w-7xl mx-auto">
+            <div className="p-8 rounded-xl bg-white shadow-sm hover:shadow-md transition-shadow">
+              <h3 className="heading-md mb-6">Conservative Approach</h3>
               <p className="text-gray-600">
                 We prioritize minimally invasive treatments, preserving natural tooth structure whenever possible.
               </p>
             </div>
-            <div className="p-6 rounded-lg">
-              <h3 className="heading-md mb-4">Guided Implant Surgeries</h3>
+            <div className="p-8 rounded-xl bg-white shadow-sm hover:shadow-md transition-shadow">
+              <h3 className="heading-md mb-6">Guided Implant Surgeries</h3>
               <p className="text-gray-600">
                 Our clinic utilizes advanced digital technologies for precise diagnoses, efficient treatments, and enhanced patient comfort.
               </p>
             </div>
-            <div className="p-6 rounded-lg">
-              <h3 className="heading-md mb-4">Invisalign Services</h3>
+            <div className="p-8 rounded-xl bg-white shadow-sm hover:shadow-md transition-shadow">
+              <h3 className="heading-md mb-6">Guided Implant Surgeries</h3>
+              <p className="text-gray-600">
+                Our experienced team performs precise and minimally invasive dental implant procedures using advanced guided surgery techniques.
+              </p>
+            </div>
+            <div className="p-8 rounded-xl bg-white shadow-sm hover:shadow-md transition-shadow">
+              <h3 className="heading-md mb-6">Invisalign Services</h3>
               <p className="text-gray-600">
                 We offer Invisalign, a clear aligner system that straightens teeth discreetly and comfortably, providing an alternative to traditional orthodontic treatments.
               </p>
