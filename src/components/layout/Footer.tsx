@@ -32,7 +32,12 @@ export function Footer() {
                 <a href="/#testimonials" className="text-gray-400 hover:text-dental-300 transition-colors">Testimonials</a>
               </li>
               <li>
-                <a href="/blog" className="text-gray-400 hover:text-dental-300 transition-colors">Blog</a>
+                <Link 
+                  to="/blog" 
+                  className="text-gray-400 hover:text-dental-300 transition-colors"
+                >
+                  Blog
+                </Link>
               </li>
             </ul>
           </div>
