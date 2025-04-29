@@ -39,12 +39,6 @@ export function DentalClinicSchema() {
                 "closes": "18:00"
               }
             ],
-            "specialty": ["Invisalign", "Dental Implants", "Smile Makeovers", "Cosmetic Dentistry"],
-            "medicalSpecialty": "Dentistry",
-            "founder": {
-              "@type": "Person",
-              "name": "Dr. Tanmay Bhandari",
-              "jobTitle": "Lead Dental Consultant"
             }
           })
         }}
