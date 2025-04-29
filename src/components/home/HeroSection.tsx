@@ -90,12 +90,6 @@ export function HeroSection() {
               </p>
             </div>
             <div className="p-6 rounded-lg">
-              <h3 className="heading-md mb-4">Guided Implant Surgeries</h3>
-              <p className="text-gray-600">
-                Our experienced team performs precise and minimally invasive dental implant procedures using advanced guided surgery techniques.
-              </p>
-            </div>
-            <div className="p-6 rounded-lg">
               <h3 className="heading-md mb-4">Invisalign Services</h3>
               <p className="text-gray-600">
                 We offer Invisalign, a clear aligner system that straightens teeth discreetly and comfortably, providing an alternative to traditional orthodontic treatments.
