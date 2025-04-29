@@ -50,7 +50,7 @@ export function Footer() {
             <ul className="space-y-4">
               <li className="flex items-start gap-3">
                 <MapPinIcon size={20} className="text-dental-400 shrink-0 mt-1" />
-                <span className="text-gray-400">123 Dental Avenue, Koregaon Park, Pune 411001</span>
+                <span className="text-gray-400">Bhandari Dental Clinic, Sujay Garden Commercial Centre, off No 24, Mukund Nagar, Pune, Maharashtra 411037</span>
               </li>
               <li className="flex items-center gap-3">
                 <PhoneIcon size={20} className="text-dental-400 shrink-0" />
