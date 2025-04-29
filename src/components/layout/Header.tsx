@@ -1,7 +1,7 @@
-
 import { useState, useEffect } from "react";
 import { Button } from "../ui/button";
 import { PhoneIcon } from "lucide-react";
+import { Link } from 'react-router-dom';
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -76,12 +76,12 @@ export function Header() {
           >
             Testimonials
           </button>
-          <a 
-            href="/blog"
+          <Link 
+            to="/blog"
             className="text-sm font-medium hover:text-dental-600 transition-colors"
           >
             Blog
-          </a>
+          </Link>
           <button 
             onClick={() => scrollToSection("contact")}
             className="text-sm font-medium hover:text-dental-600 transition-colors"
