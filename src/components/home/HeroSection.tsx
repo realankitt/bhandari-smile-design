@@ -1,3 +1,4 @@
+import { ServicesSection } from './ServicesSection';
 import { Button } from "../ui/button";
 
 export function HeroSection() {
@@ -10,6 +11,7 @@ export function HeroSection() {
 
   return (
     <>
+      {/* Hero Section */}
       <section className="pt-32 pb-16 md:pt-40 md:pb-24">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
@@ -40,7 +42,7 @@ export function HeroSection() {
             </div>
             <div className="order-1 md:order-2 overflow-hidden rounded-2xl shadow-2xl">
               <img 
-                src="https://images.unsplash.com/photo-1606811971618-4486d14f3f99?q=80&w=1000&auto=format&fit=crop"
+                src="/images/dental-care.jpg"
                 alt="Beautiful smile transformation" 
                 className="w-full h-auto object-cover"
               />
@@ -69,6 +71,9 @@ export function HeroSection() {
           </div>
         </div>
       </section>
+
+      {/* Services Section */}
+      <ServicesSection />
 
       {/* Key Features Section */}
       <section className="py-16 bg-dental-50">
