@@ -45,10 +45,9 @@ export function Footer() {
           <div>
             <h3 className="text-lg font-semibold mb-4 text-gray-500">Services</h3>
             <ul className="space-y-2">
-              <li className="text-gray-400">Invisalign Clear Aligners</li>
-              <li className="text-gray-400">Guided Dental Implants</li>
-              <li className="text-gray-400">Smile Makeovers</li>
-              <li className="text-gray-400">Preventive Dentistry</li>
+              <li className="text-gray-400">Invisalign</li>
+              <li className="text-gray-400">Guided Implants</li>
+              <li className="text-gray-400">Full Mouth Rehabilitation</li>
             </ul>
           </div>
           
