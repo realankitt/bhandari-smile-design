@@ -1,7 +1,9 @@
 import { MapPinIcon, PhoneIcon, MessageSquareIcon } from "lucide-react";
+import { Link } from 'react-router-dom';
 export function Footer() {
   const currentYear = new Date().getFullYear();
-  return <footer className="text-white pt-16 pb-8 bg-gray-50">
+  return (
+    <footer className="text-white pt-16 pb-8 bg-gray-50">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
           <div>
@@ -72,5 +74,6 @@ export function Footer() {
           </p>
         </div>
       </div>
-    </footer>;
+    </footer>
+  );
 }
