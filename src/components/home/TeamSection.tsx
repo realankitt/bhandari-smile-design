@@ -1,11 +1,10 @@
-
 import React from "react";
 
 const team = [
   {
     name: "Dr. Sneha Bhandari",
     degree: "B.D.S.",
-    image: "https://res.cloudinary.com/dqeh7epvc/image/upload/v1713706029/sneha-bhandari_srx6wc.jpg",
+    image: "/images/dr-sneha-bhandari.jpg",
     description: [
       "Dr. Sneha Bhandari has been creating beautiful smiles for 25+ years and is passionate about preserving oral health.",
       "She has developed an outstanding capacity for clinical diagnostics and skills to provide targeted dental treatments.",
@@ -16,7 +15,7 @@ const team = [
   {
     name: "Dr. Sameer Bhandari",
     degree: "B.D.S.",
-    image: "https://res.cloudinary.com/dqeh7epvc/image/upload/v1713706029/sameer-bhandari_toskph.jpg",
+    image: "/images/dr-sameer-bhandari.jpg",
     description: [
       "Dr. Sameer Bhandari has been practicing dentistry for over 25 years.",
       "His patient base includes people from all walks of life, both local and international. His work is highly appreciated and patients often return for various treatments.",
@@ -27,12 +26,11 @@ const team = [
   {
     name: "Dr. Tanmay Bhandari",
     degree: "MBBS",
-    image: "/lovable-uploads/db209d0f-8706-4553-8669-f415a5da0dd7.png",
+    image: "/images/dr-tanmay-bhandari.jpg",
     description: [
-      "Healthcare Visionary transforming patient care through holistic approaches",
-      "Emphasizing prevention, education, and empowerment for optimal health",
-      "Committed to integrative healthcare and patient empowerment",
-      "Focusing on patient wellness, not just disease treatment",
+      "Healthcare Professional & Wellness Coach",
+      "Guiding patients towards optimal health through evidence-based holistic practices",
+      "Fostering a culture of wellness and self-care",
     ]
   }
 ];

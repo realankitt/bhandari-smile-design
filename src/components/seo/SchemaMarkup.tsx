@@ -1,4 +1,3 @@
-
 export function DentalClinicSchema() {
     return (
       <script
@@ -38,14 +37,7 @@ export function DentalClinicSchema() {
                 "opens": "10:00",
                 "closes": "18:00"
               }
-            ],
-            "specialty": ["Invisalign", "Dental Implants", "Smile Makeovers", "Cosmetic Dentistry"],
-            "medicalSpecialty": "Dentistry",
-            "founder": {
-              "@type": "Person",
-              "name": "Dr. Tanmay Bhandari",
-              "jobTitle": "Lead Dental Consultant"
-            }
+            ]
           })
         }}
       />

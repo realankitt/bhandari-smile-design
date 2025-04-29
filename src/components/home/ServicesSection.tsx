@@ -28,18 +28,18 @@ function ServiceCard({ title, description, icon }: ServiceCardProps) {
 export function ServicesSection() {
   const services = [
     {
-      title: "Invisalign Clear Aligners",
-      description: "Transform your smile with virtually invisible aligners. Experience comfortable, precise teeth straightening with Invisalign's advanced technology.",
+      title: "Invisalign",
+      description: "Transform your smile with virtually invisible aligners. Straighten your teeth comfortably without metal braces.",
       icon: "👄"
     },
     {
-      title: "Guided Dental Implants",
-      description: "Advanced, precision-guided implant procedures using state-of-the-art technology for optimal placement and long-lasting results.",
+      title: "Guided Implants",
+      description: "Replace missing teeth with precision-guided implants that look, feel, and function like natural teeth.",
       icon: "🦷"
     },
     {
       title: "Full Mouth Rehabilitation",
-      description: "Comprehensive treatment to restore both function and aesthetics, addressing multiple dental issues for a complete smile transformation.",
+      description: "Comprehensive treatment to transform your smile through a combination of cosmetic procedures tailored to you.",
       icon: "✨"
     }
   ];
