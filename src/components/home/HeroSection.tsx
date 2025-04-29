@@ -1,7 +1,7 @@
-import { Button } from "../ui/button";
+import { ServicesSection } from './ServicesSection';
 
 export function HeroSection() {
-  const openWhatsApp = () => {
+const openWhatsApp = () => {
     window.open(
       "https://api.whatsapp.com/send?phone=919834604977",
       "_blank"
@@ -10,6 +10,7 @@ export function HeroSection() {
 
   return (
     <>
+      {/* Hero Section */}
       <section className="pt-32 pb-16 md:pt-40 md:pb-24">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
@@ -69,6 +70,9 @@ export function HeroSection() {
           </div>
         </div>
       </section>
+
+      {/* Services Section */}
+      <ServicesSection />
 
       {/* Key Features Section */}
       <section className="py-16 bg-dental-50">
