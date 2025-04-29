@@ -2,7 +2,7 @@ import { MapPinIcon, PhoneIcon, MessageSquareIcon } from "lucide-react";
 import { Button } from "../ui/button";
 export function ContactSection() {
   const openWhatsApp = () => {
-    window.open("https://wa.me/+919999999999?text=Hi,%20I'm%20interested%20in%20a%20consultation%20at%20Bhandari%20Dental%20Clinic.", "_blank");
+    window.open("https://api.whatsapp.com/send?phone=919834604977", "_blank");
   };
   return <section id="contact" className="section-padding bg-white">
       <div className="container mx-auto">
@@ -37,7 +37,7 @@ export function ContactSection() {
                   </div>
                   <div>
                     <p className="font-medium">Phone</p>
-                    <p className="text-gray-600">+91 9999 999 999</p>
+                    <p className="text-gray-600">+91 9423004777</p>
                   </div>
                 </div>
               </div>
@@ -70,7 +70,7 @@ export function ContactSection() {
           </div>
           
           <div className="lg:col-span-3 rounded-xl overflow-hidden shadow-lg h-[400px]">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d30263.175384852634!2d73.8557592!3d18.5204303!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2c147b8b3a3bf%3A0x6f7fdcc8e4d6c77e!2sKoregaon%20Park%2C%20Pune%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1698130842688!5m2!1sen!2sin" width="100%" height="100%" style={{
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3783.7099111123434!2d73.8576146758203!3d18.49679466989888!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2c017460d073b%3A0x4dd7ccd4395723c2!2sBhandari%20Dental%20Clinic!5e0!3m2!1sen!2sin!4v1745918339765!5m2!1sen!2sin" width="100%" height="100%" style={{
             border: 0
           }} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade" title="Bhandari Dental Clinic Location"></iframe>
           </div>

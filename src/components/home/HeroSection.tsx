@@ -4,7 +4,7 @@ import { Button } from "../ui/button";
 export function HeroSection() {
   const openWhatsApp = () => {
     window.open(
-      "https://wa.me/+919999999999?text=Hi,%20I'm%20interested%20in%20a%20consultation%20at%20Bhandari%20Dental%20Clinic.",
+      "https://api.whatsapp.com/send?phone=919834604977",
       "_blank"
     );
   };

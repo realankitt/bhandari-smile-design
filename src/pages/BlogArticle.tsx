@@ -35,7 +35,7 @@ const articles = [
         </p>
         <div className="mt-8">
           <a
-            href="https://wa.me/+919999999999?text=Hi,%20I'm%20interested%20in%20learning%20more%20about%20Invisalign%20clear%20aligners%20at%20Bhandari%20Dental%20Clinic."
+            href="hhttps://api.whatsapp.com/send?phone=919834604977"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-block bg-dental-500 text-white font-semibold px-5 py-3 rounded-md shadow hover:bg-dental-600 transition-colors"

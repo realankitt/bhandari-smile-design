@@ -12,19 +12,19 @@ export function DentalClinicSchema() {
             "description": "Bhandari Dental Clinic in Pune specializes in Invisalign clear aligners, guided dental implants, and complete smile makeovers.",
             "address": {
               "@type": "PostalAddress",
-              "streetAddress": "123 Dental Avenue, Koregaon Park",
+              "streetAddress": "Bhandari Dental Clinic, Sujay Garden Commercial Centre, off No 24, Mukund Nagar",
               "addressLocality": "Pune",
               "addressRegion": "Maharashtra",
-              "postalCode": "411001",
+              "postalCode": "411037",
               "addressCountry": "IN"
             },
             "geo": {
               "@type": "GeoCoordinates",
-              "latitude": "18.5204303",
-              "longitude": "73.8557592"
+              "latitude": "18.49691",
+              "longitude": "73.86041"
             },
             "url": "https://bhandaridentalclinic.com",
-            "telephone": "+919999999999",
+            "telephone": "+91 9423004777",
             "openingHoursSpecification": [
               {
                 "@type": "OpeningHoursSpecification",
