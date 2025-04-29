@@ -49,30 +49,22 @@ export function HeroSection() {
         </div>
       </section>
 
-      {/* What Sets Us Apart Section */}
-      <section className="py-16 bg-white">
+      {/* Mission Section */}
+      <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
-          <h2 className="heading-lg text-center mb-12">
-            What Sets Us <span className="gradient-text">Apart</span>
-          </h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="p-6 rounded-lg">
-              <h3 className="heading-md mb-4">Expertise</h3>
-              <p className="text-gray-600">
-                Our team consists of experienced dentists with specialized training in modern dentistry techniques, including Invisalign.
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
+            <div className="space-y-6">
+              <h2 className="heading-lg">Our Mission</h2>
+              <p className="text-gray-600 leading-relaxed">
+                At Bhandari Dental Clinic, we're dedicated to providing personalized, high-quality dental care that prioritizes patient comfort, satisfaction, and long-term oral health. Our team of experienced professionals stays up-to-date with the latest advancements in modern dentistry to ensure our patients receive the best possible care.
               </p>
             </div>
-            <div className="p-6 rounded-lg">
-              <h3 className="heading-md mb-4">State-of-the-Art Facilities</h3>
-              <p className="text-gray-600">
-                Our clinic is equipped with advanced digital dentistry tools and technology, including 3D scanning and printing for Invisalign treatments.
-              </p>
-            </div>
-            <div className="p-6 rounded-lg">
-              <h3 className="heading-md mb-4">Patient-Centric Approach</h3>
-              <p className="text-gray-600">
-                We prioritize patient comfort, satisfaction, and education, ensuring informed decision-making and personalized care.
-              </p>
+            <div className="rounded-2xl overflow-hidden shadow-lg">
+              <img 
+                src="/images/dental-care.jpg" 
+                alt="Dental care at Bhandari Dental Clinic"
+                className="w-full h-full object-cover"
+              />
             </div>
           </div>
         </div>
@@ -112,6 +104,36 @@ export function HeroSection() {
           </div>
         </div>
       </section>
+
+      {/* What Sets Us Apart Section */}
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-4">
+          <h2 className="heading-lg text-center mb-12">
+            What Sets Us <span className="gradient-text">Apart</span>
+          </h2>
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="p-6 rounded-lg">
+              <h3 className="heading-md mb-4">Expertise</h3>
+              <p className="text-gray-600">
+                Our team consists of experienced dentists with specialized training in modern dentistry techniques, including Invisalign.
+              </p>
+            </div>
+            <div className="p-6 rounded-lg">
+              <h3 className="heading-md mb-4">State-of-the-Art Facilities</h3>
+              <p className="text-gray-600">
+                Our clinic is equipped with advanced digital dentistry tools and technology, including 3D scanning and printing for Invisalign treatments.
+              </p>
+            </div>
+            <div className="p-6 rounded-lg">
+              <h3 className="heading-md mb-4">Patient-Centric Approach</h3>
+              <p className="text-gray-600">
+                We prioritize patient comfort, satisfaction, and education, ensuring informed decision-making and personalized care.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
     </>
   );
 }
