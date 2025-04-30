@@ -44,9 +44,6 @@ export function Header() {
     >
       <div className="container mx-auto px-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <div className="h-10 w-10 rounded-full bg-dental-500 flex items-center justify-center text-white font-bold text-xl">
-            BD
-          </div>
           <span className="font-semibold text-lg">Bhandari Dental Clinic</span>
         </div>
 
