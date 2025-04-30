@@ -1,4 +1,14 @@
-import { supabase } from '../lib/supabase'
+const { createClient } = require('@supabase/supabase-js');
+require('dotenv').config();
+
+const supabaseUrl = process.env.VITE_SUPABASE_URL;
+const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY;
+
+if (!supabaseUrl || !supabaseKey) {
+  throw new Error('Missing Supabase environment variables');
+}
+
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 const oldBlogs = [
   {
@@ -14,7 +24,6 @@ const oldBlogs = [
     author: "Dr. Tanmay Bhandari",
     published_at: new Date("2024-04-10").toISOString()
   }
-  // Add more blogs here in the same format
 ];
 
 async function migrateBlogPosts() {
@@ -22,14 +31,14 @@ async function migrateBlogPosts() {
     const { data, error } = await supabase
       .from('blogs')
       .insert(blog)
-      .single()
+      .single();
 
     if (error) {
-      console.error(`Failed to migrate "${blog.title}":`, error)
+      console.error(`Failed to migrate "${blog.title}":`, error);
     } else {
-      console.log(`Successfully migrated "${blog.title}"`)
+      console.log(`Successfully migrated "${blog.title}"`);
     }
   }
 }
 
-migrateBlogPosts()
+migrateBlogPosts().catch(console.error);

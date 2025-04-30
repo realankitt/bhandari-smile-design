@@ -1,0 +1,79 @@
+name: Migrate Blogs
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to run migration'
+        required: true
+        default: 'production'
+        type: choice
+        options:
+        - production
+        - development
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        
+    - name: Install dependencies
+      run: npm install
+        
+    - name: Create migration file
+      run: |
+        mkdir -p migrations
+        cat > migrations/migrate-blogs.js << 'EOF'
+        const { createClient } = require('@supabase/supabase-js');
+
+        const supabase = createClient(
+          process.env.VITE_SUPABASE_URL,
+          process.env.VITE_SUPABASE_ANON_KEY
+        );
+
+        const oldBlogs = [
+          {
+            title: "The Benefits of Invisalign Over Traditional Braces",
+            slug: "benefits-invisalign-over-traditional-braces",
+            excerpt: "Exploring why Invisalign clear aligners...",
+            content: `<h2>Why Choose Invisalign?</h2>...`,
+            image: "https://example.com/image.jpg",
+            category: "Invisalign",
+            author: "Dr. Tanmay Bhandari",
+            published_at: new Date().toISOString()
+          }
+          // Add more blogs here
+        ];
+
+        async function migrate() {
+          for (const blog of oldBlogs) {
+            try {
+              const { data, error } = await supabase
+                .from('blogs')
+                .insert(blog)
+                .single();
+
+              if (error) throw error;
+              console.log(`Migrated: ${blog.title}`);
+            } catch (error) {
+              console.error(`Failed to migrate ${blog.title}:`, error);
+              process.exit(1);
+            }
+          }
+        }
+
+        migrate();
+        EOF
+
+    - name: Run migration
+      env:
+        VITE_SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+        VITE_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+      run: node migrations/migrate-blogs.js
