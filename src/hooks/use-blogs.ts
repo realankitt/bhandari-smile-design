@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import { supabase } from '@/lib/supabase'
 
 interface Blog {
-  id: number
+  id: string
   created_at: string
   title: string
   slug: string

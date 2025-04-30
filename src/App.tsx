@@ -5,7 +5,6 @@ import BlogPage from './pages/Blog';
 import BlogArticle from './pages/BlogArticle';
 import NotFound from './pages/NotFound';
 
-// Create a client
 const queryClient = new QueryClient();
 
 function App() {
