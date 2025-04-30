@@ -47,7 +47,7 @@ export const TeamSection = () => (
       {team.map((member, idx) => (
         <div
           key={member.name}
-          className="bg-white rounded-lg shadow-md flex flex-col items-center p-8 transition-transform duration-200 hover:scale-105 animate-fade-in"
+          className="bg-white rounded-2xl shadow-md flex flex-col items-center p-8 transition-transform duration-200 hover:scale-105 animate-fade-in"
         >
           <img
             src={member.image}
