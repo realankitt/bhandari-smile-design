@@ -1,4 +1,3 @@
-
 import { CalendarIcon } from "lucide-react";
 import { Card, CardContent, CardFooter, CardHeader } from "../ui/card";
 import { Button } from "../ui/button";
@@ -15,7 +14,7 @@ type BlogCardProps = {
 
 export function BlogCard({ title, excerpt, date, image, category, slug }: BlogCardProps) {
   return (
-    <Card className="overflow-hidden border-0 shadow-md hover:shadow-xl transition-shadow">
+    <Card className="overflow-hidden border-0 shadow-md hover:shadow-xl transition-shadow rounded-2xl">
       <div className="relative h-52 overflow-hidden">
         <img
           src={image}
@@ -23,7 +22,7 @@ export function BlogCard({ title, excerpt, date, image, category, slug }: BlogCa
           className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
         />
         <div className="absolute top-4 left-4">
-          <span className="bg-dental-500 text-white text-xs font-medium px-2.5 py-1 rounded">
+          <span className="bg-dental-500 text-white text-xs font-medium px-2.5 py-1 rounded-full">
             {category}
           </span>
         </div>
