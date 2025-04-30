@@ -1,9 +1,12 @@
-import { BlogHeader } from "../components/blog/BlogHeader";
-import { Footer } from "../components/layout/Footer";
-import { BlogCard } from "../components/blog/BlogCard";
-import { blogPosts } from '../data/blogPosts'; // Create this file to store all blog posts
+import { BlogHeader } from "../components/blog/BlogHeader"
+import { Footer } from "../components/layout/Footer"
+import { BlogCard } from "../components/blog/BlogCard"
+import { useBlogs } from "@/hooks/use-blogs"
+import { Helmet } from "react-helmet"
 
 const BlogPage = () => {
+  const { data: blogs, isLoading, error } = useBlogs()
+
   return (
     <div className="min-h-screen flex flex-col">
       <BlogHeader />
@@ -17,19 +20,31 @@ const BlogPage = () => {
               Expert insights, tips, and information about dental care, treatments, and maintaining your perfect smile.
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {blogPosts.map((post) => (
-              <BlogCard
-                key={post.slug}
-                {...post}
-              />
-            ))}
-          </div>
+          
+          {isLoading ? (
+            <div className="text-center">Loading...</div>
+          ) : error ? (
+            <div className="text-center text-red-500">Error loading blogs</div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {blogs?.map((post) => (
+                <BlogCard
+                  key={post.id}
+                  title={post.title}
+                  excerpt={post.excerpt}
+                  date={new Date(post.published_at).toLocaleDateString()}
+                  image={post.image}
+                  category={post.category}
+                  slug={post.slug}
+                />
+              ))}
+            </div>
+          )}
         </div>
       </main>
       <Footer />
     </div>
-  );
-};
+  )
+}
 
-export default BlogPage;
+export default BlogPage
