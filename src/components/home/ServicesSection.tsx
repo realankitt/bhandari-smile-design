@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
 
 type ServiceCardProps = {
@@ -9,7 +8,7 @@ type ServiceCardProps = {
 
 function ServiceCard({ title, description, icon }: ServiceCardProps) {
   return (
-    <Card className="border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+    <Card className="border border-gray-100 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
       <CardHeader className="pb-2">
         <div className="w-12 h-12 mb-4 rounded-lg bg-dental-50 flex items-center justify-center">
           <span className="text-dental-500 text-2xl">{icon}</span>
