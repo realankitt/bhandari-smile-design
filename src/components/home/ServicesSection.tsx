@@ -54,14 +54,53 @@ export function ServicesSection() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {services.map((service, index) => (
-            <ServiceCard
-              key={index}
-              title={service.title}
-              description={service.description}
-              icon={service.icon}
-            />
-          ))}
+          <div className="p-8 rounded-2xl bg-white shadow-sm hover:shadow-md transition-shadow">
+            <div className="w-12 h-12 mb-6 rounded-lg bg-dental-50 flex items-center justify-center">
+              <span className="text-dental-500">
+                <img 
+                  src="/path-to-icon.png" 
+                  alt="Invisalign" 
+                  className="w-8 h-8 rounded-lg"  // Add rounded corners to icon
+                />
+              </span>
+            </div>
+            <h3 className="heading-md mb-6">Invisalign</h3>
+            <p className="text-gray-600 leading-relaxed">
+              Transform your smile with virtually invisible aligners. Straighten your teeth comfortably without metal braces.
+            </p>
+          </div>
+
+          <div className="p-8 rounded-2xl bg-white shadow-sm hover:shadow-md transition-shadow">
+            <div className="w-12 h-12 mb-6 rounded-lg bg-dental-50 flex items-center justify-center">
+              <span className="text-dental-500">
+                <img 
+                  src="/path-to-icon.png" 
+                  alt="Guided Implants"
+                  className="w-8 h-8 rounded-lg"  // Add rounded corners to icon
+                />
+              </span>
+            </div>
+            <h3 className="heading-md mb-6">Guided Implants</h3>
+            <p className="text-gray-600 leading-relaxed">
+              Replace missing teeth with precision-guided implants that look, feel, and function like natural teeth.
+            </p>
+          </div>
+
+          <div className="p-8 rounded-2xl bg-white shadow-sm hover:shadow-md transition-shadow">
+            <div className="w-12 h-12 mb-6 rounded-lg bg-dental-50 flex items-center justify-center">
+              <span className="text-dental-500">
+                <img 
+                  src="/path-to-icon.png" 
+                  alt="Full Mouth Rehabilitation"
+                  className="w-8 h-8 rounded-lg"  // Add rounded corners to icon
+                />
+              </span>
+            </div>
+            <h3 className="heading-md mb-6">Full Mouth Rehabilitation</h3>
+            <p className="text-gray-600 leading-relaxed">
+              Comprehensive treatment to transform your smile through a combination of cosmetic procedures tailored to you.
+            </p>
+          </div>
         </div>
       </div>
     </section>
