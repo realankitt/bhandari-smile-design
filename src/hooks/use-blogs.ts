@@ -18,16 +18,21 @@ export function useBlogs() {
   return useQuery({
     queryKey: ['blogs'],
     queryFn: async () => {
-      console.log('Fetching blogs...')
+      console.log('Fetching blogs...'); // Debug log
       const { data, error } = await supabase
         .from('blogs')
         .select('*')
-        .order('published_at', { ascending: false })
+        .order('published_at', { ascending: false });
 
-      if (error) throw error
-      return data as Blog[]
+      if (error) {
+        console.error('Supabase error:', error); // Debug log
+        throw error;
+      }
+
+      console.log('Fetched blogs:', data); // Debug log
+      return data as Blog[];
     }
-  })
+  });
 }
 
 // Add this new hook export

@@ -5,9 +5,18 @@ import BlogPage from './pages/Blog';
 import BlogArticle from './pages/BlogArticle';
 import NotFound from './pages/NotFound';
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      retry: 1
+    }
+  }
+});
 
 function App() {
+  console.log('App rendering...'); // Debug log
+
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>

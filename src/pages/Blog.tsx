@@ -1,24 +1,35 @@
-import { BlogHeader } from "../components/blog/BlogHeader"
-import { Footer } from "../components/layout/Footer"
-import { BlogCard } from "../components/blog/BlogCard"
-import { useBlogs } from "@/hooks/use-blogs"
-import { Helmet } from "react-helmet"
+import { BlogHeader } from "../components/blog/BlogHeader";
+import { Footer } from "../components/layout/Footer";
+import { BlogCard } from "../components/blog/BlogCard";
+import { useBlogs } from "@/hooks/use-blogs";
+import { Helmet } from "react-helmet";
 
 const BlogPage = () => {
-  const { data: blogs, isLoading, error } = useBlogs()
+  const { data: blogs, isLoading, error } = useBlogs();
+
+  console.log('Blog data:', blogs); // Debug log
+  console.log('Loading:', isLoading); // Debug log
+  console.log('Error:', error); // Debug log
 
   if (isLoading) {
-    return <div className="min-h-screen flex items-center justify-center">
-      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-dental-600"></div>
-    </div>
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-dental-600"></div>
+      </div>
+    );
   }
 
   if (error) {
-    return <div>Error loading blogs</div>
+    console.error('Blog fetch error:', error);
+    return <div>Error loading blogs</div>;
   }
 
   return (
     <div className="min-h-screen flex flex-col">
+      <Helmet>
+        <title>Blog | Bhandari Dental Clinic</title>
+        <meta name="description" content="Read the latest articles about dental care, treatments, and oral health tips from Bhandari Dental Clinic." />
+      </Helmet>
       <BlogHeader />
       <main className="flex-grow pt-28 pb-20">
         <div className="container mx-auto px-4">
@@ -48,7 +59,7 @@ const BlogPage = () => {
       </main>
       <Footer />
     </div>
-  )
-}
+  );
+};
 
-export default BlogPage
+export default BlogPage;
