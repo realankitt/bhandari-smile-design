@@ -29,3 +29,20 @@ export function useBlogs() {
     }
   })
 }
+
+// Add this new hook export
+export function useBlog(slug: string) {
+  return useQuery({
+    queryKey: ['blog', slug],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('blogs')
+        .select('*')
+        .eq('slug', slug)
+        .single()
+
+      if (error) throw error
+      return data as Blog
+    }
+  })
+}
