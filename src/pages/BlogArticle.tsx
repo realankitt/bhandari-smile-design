@@ -6,12 +6,16 @@ import { CalendarIcon, ArrowLeftIcon } from "lucide-react"
 import { useBlog } from "@/hooks/use-blogs"
 
 const BlogArticle = () => {
-  const { slug } = useParams<{ slug: string }>()
-  const navigate = useNavigate()
-  const { data: article, isLoading, error } = useBlog(slug || '')
+  const { slug } = useParams<{ slug: string }>();
+  const navigate = useNavigate();
+  const { data: article, isLoading, error } = useBlog(slug || '');
 
   if (isLoading) {
-    return <div>Loading...</div>
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-dental-600"></div>
+      </div>
+    );
   }
 
   if (error || !article) {
@@ -35,7 +39,7 @@ const BlogArticle = () => {
         </main>
         <Footer />
       </div>
-    )
+    );
   }
 
   return (
