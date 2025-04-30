@@ -53,17 +53,17 @@ export default {
 					foreground: 'hsl(var(--card-foreground))'
 				},
 				dental: {
-					50: '#e6fff0',
-					100: '#ccffe1',
-					200: '#99ffc4',
-					300: '#66ffa6',
-					400: '#33ff89',
-					500: '#00ff6b',
-					600: '#00cc56',
-					700: '#009940',
-					800: '#00662b',
-					900: '#003315',
-					950: '#001a0b'
+					50: '#e6f7fa',
+					100: '#cceff5',
+					200: '#99dfeb',
+					300: '#66cfe1',
+					400: '#33bfd7',
+					500: '#30A5BD', // Your primary brand color
+					600: '#268497',
+					700: '#1d6371',
+					800: '#13424c',
+					900: '#0a2126',
+					950: '#051013'
 				},
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
