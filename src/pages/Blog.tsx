@@ -7,10 +7,6 @@ import { Helmet } from "react-helmet";
 const BlogPage = () => {
   const { data: blogs, isLoading, error } = useBlogs();
 
-  console.log('Blog data:', blogs); // Debug log
-  console.log('Loading:', isLoading); // Debug log
-  console.log('Error:', error); // Debug log
-
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -20,7 +16,7 @@ const BlogPage = () => {
   }
 
   if (error) {
-    console.error('Blog fetch error:', error);
+    console.error('Failed to load blog posts');
     return <div>Error loading blogs</div>;
   }
 
