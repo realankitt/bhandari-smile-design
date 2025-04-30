@@ -83,27 +83,27 @@ export function HeroSection() {
           </h2>
           <div className="grid md:grid-cols-4 gap-12 max-w-7xl mx-auto">
             <div className="p-8 rounded-xl bg-white shadow-sm hover:shadow-md transition-shadow">
-              <h3 className="heading-md mb-6">Conservative Approach</h3>
+              <h3 className="heading-md mb-6">Conservative Dentistry</h3>
               <p className="text-gray-600">
-                We prioritize minimally invasive treatments, preserving natural tooth structure whenever possible.
+              Preserving natural tooth structure and minimizing invasive procedures whenever possible.
               </p>
             </div>
             <div className="p-8 rounded-xl bg-white shadow-sm hover:shadow-md transition-shadow">
-              <h3 className="heading-md mb-6">Guided Implant Surgeries</h3>
+              <h3 className="heading-md mb-6">Personalized Care</h3>
               <p className="text-gray-600">
-                Our clinic utilizes advanced digital technologies for precise diagnoses, efficient treatments, and enhanced patient comfort.
+              Tailoring treatment plans to each patient's unique needs, preferences, and goals.
               </p>
             </div>
             <div className="p-8 rounded-xl bg-white shadow-sm hover:shadow-md transition-shadow">
-              <h3 className="heading-md mb-6">Guided Implant Surgeries</h3>
+              <h3 className="heading-md mb-6">Advanced Digital Technology</h3>
               <p className="text-gray-600">
-                Our experienced team performs precise and minimally invasive dental implant procedures using advanced guided surgery techniques.
+              Utilizing cutting-edge digital tools for precise diagnoses, efficient treatments, and enhanced patient comfort.
               </p>
             </div>
             <div className="p-8 rounded-xl bg-white shadow-sm hover:shadow-md transition-shadow">
-              <h3 className="heading-md mb-6">Invisalign Services</h3>
+              <h3 className="heading-md mb-6">Lasting Outcomes</h3>
               <p className="text-gray-600">
-                We offer Invisalign, a clear aligner system that straightens teeth discreetly and comfortably, providing an alternative to traditional orthodontic treatments.
+              Focusing on delivering high-quality, long-lasting results that promote optimal oral health and patient satisfaction.
               </p>
             </div>
           </div>
