@@ -18,6 +18,7 @@ export function useBlogs() {
   return useQuery({
     queryKey: ['blogs'],
     queryFn: async () => {
+      console.log('Fetching blogs...')
       const { data, error } = await supabase
         .from('blogs')
         .select('*')
@@ -25,22 +26,6 @@ export function useBlogs() {
 
       if (error) throw error
       return data as Blog[]
-    }
-  })
-}
-
-export function useBlog(slug: string) {
-  return useQuery({
-    queryKey: ['blog', slug],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('blogs')
-        .select('*')
-        .eq('slug', slug)
-        .single()
-
-      if (error) throw error
-      return data as Blog
     }
   })
 }

@@ -7,6 +7,16 @@ import { Helmet } from "react-helmet"
 const BlogPage = () => {
   const { data: blogs, isLoading, error } = useBlogs()
 
+  if (isLoading) {
+    return <div className="min-h-screen flex items-center justify-center">
+      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-dental-600"></div>
+    </div>
+  }
+
+  if (error) {
+    return <div>Error loading blogs</div>
+  }
+
   return (
     <div className="min-h-screen flex flex-col">
       <BlogHeader />
@@ -21,25 +31,19 @@ const BlogPage = () => {
             </p>
           </div>
           
-          {isLoading ? (
-            <div className="text-center">Loading...</div>
-          ) : error ? (
-            <div className="text-center text-red-500">Error loading blogs</div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {blogs?.map((post) => (
-                <BlogCard
-                  key={post.id}
-                  title={post.title}
-                  excerpt={post.excerpt}
-                  date={new Date(post.published_at).toLocaleDateString()}
-                  image={post.image}
-                  category={post.category}
-                  slug={post.slug}
-                />
-              ))}
-            </div>
-          )}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {blogs?.map((post) => (
+              <BlogCard
+                key={post.id}
+                title={post.title}
+                excerpt={post.excerpt}
+                date={new Date(post.published_at).toLocaleDateString()}
+                image={post.image}
+                category={post.category}
+                slug={post.slug}
+              />
+            ))}
+          </div>
         </div>
       </main>
       <Footer />
