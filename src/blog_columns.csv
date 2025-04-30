@@ -1,0 +1,11 @@
+name,type,default,is_nullable,is_identity,is_primary,is_unique,comment
+id,uuid,uuid_generate_v4(),false,false,true,true,Primary key for the blog table
+created_at,timestamptz,"timezone('utc'::text, now())",false,false,false,false,Creation timestamp
+title,text,,false,false,false,false,Blog post title
+slug,text,,false,false,false,true,URL-friendly unique identifier
+excerpt,text,,true,false,false,false,Short description
+content,text,,true,false,false,false,Main blog content
+image,text,,true,false,false,false,Featured image URL
+category,text,,true,false,false,false,Blog category
+author,text,,true,false,false,false,Author name
+published_at,timestamptz,"timezone('utc'::text, now())",false,false,false,false,Publication date
