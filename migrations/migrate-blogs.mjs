@@ -1,5 +1,5 @@
 import axios from 'axios'
-import * as cheerio from 'cheerio' // Changed this line
+import * as cheerio from 'cheerio' // Changed from: import cheerio from 'cheerio'
 import { createClient } from '@supabase/supabase-js'
 import dotenv from 'dotenv'
 
