@@ -26,6 +26,8 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+      - name: Install dependencies
+        run: npm install
 
       - name: Create migration directory
         run: mkdir -p migrations
