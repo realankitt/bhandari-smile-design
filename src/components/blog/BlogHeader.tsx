@@ -21,7 +21,7 @@ export function BlogHeader() {
 
   const openWhatsApp = () => {
     window.open(
-      "https://api.whatsapp.com/send?phone=919834604977.",
+      "https://api.whatsapp.com/send/?phone=%2B912029701777&text=Hi%2C+I+am+looking+for+an+appointment.+Can+you+help+me%3F&type=phone_number&app_absent=0",
       "_blank"
     );
   };
@@ -36,7 +36,7 @@ export function BlogHeader() {
     >
       <div className="container mx-auto px-4 flex items-center justify-between">
         <a href="/" className="flex items-center gap-2">
-          <span className="font-semibold text-lg">Bhandari Dental</span>
+          <span className="font-semibold text-lg">Bhandari Dental Clinic</span>
         </a>
 
         <nav className="hidden md:flex items-center gap-6">
