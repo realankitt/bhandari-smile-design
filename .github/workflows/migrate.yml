@@ -18,11 +18,8 @@ jobs:
       - name: Install dependencies
         run: npm install @supabase/supabase-js dotenv axios cheerio
 
-      - name: Create migration directory
-        run: mkdir -p migrations
-
-      - name: Copy migration script
-        run: cp migrations/migrate-blogs.mjs migrations/migrate-blogs.mjs
+      # Remove the redundant copy step since the file is already in place
+      # after checkout
 
       - name: Run migration
         env:
