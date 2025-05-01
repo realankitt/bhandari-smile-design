@@ -35,13 +35,9 @@ jobs:
     - name: Create migration file
       run: |
         cat > migrations/migrate-blogs.mjs << 'EOF'
+        // Using ES modules syntax
         import { createClient } from '@supabase/supabase-js';
         import * as dotenv from 'dotenv';
-        import { fileURLToPath } from 'url';
-        import { dirname } from 'path';
-        
-        const __filename = fileURLToPath(import.meta.url);
-        const __dirname = dirname(__filename);
         
         dotenv.config();
         
@@ -63,7 +59,7 @@ jobs:
           }
         ];
 
-        async function migrate() {
+        const migrate = async () => {
           for (const blog of oldBlogs) {
             try {
               const { data, error } = await supabase
@@ -78,9 +74,12 @@ jobs:
               process.exit(1);
             }
           }
-        }
+        };
 
-        migrate().catch(console.error);
+        migrate().catch((error) => {
+          console.error('Migration failed:', error);
+          process.exit(1);
+        });
         EOF
 
     - name: Run migration
