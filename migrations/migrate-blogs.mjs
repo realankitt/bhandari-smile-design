@@ -22,7 +22,6 @@ async function fetchPostLinks() {
   const $   = load(res.data)
   const links = new Set()
 
-  // grabs every <a> whose href contains “/post/…”
   $('a[href*="/post/"]').each((_, el) => {
     const href = $(el).attr('href').split('?')[0]
     const url  = href.startsWith('http') ? href : `${BASE_URL}${href}`
@@ -36,53 +35,38 @@ async function scrapePost(url) {
   const res = await axios.get(url)
   const $   = load(res.data)
 
-  const title = $('h1').first().text().trim()
+  // pick the *last* H1 on the page (the post’s title), not the header’s  
+  const title = $('h1').last().text().trim()  // :contentReference[oaicite:0]{index=0}
   const slug  = url.split('/').pop()
 
-  // all <p> tags after the <h1>
-  const paras = $('h1').nextAll().filter((_, el) => el.tagName === 'p')
+  // metadata list under the title
+  const metaItems = $('h1')
+    .last()
+    .next('ul')
+    .find('li')
+    .toArray()
+    .map(li => $(li).text().trim())
 
-  // author: from the “Writer: …” alt text
-  let author = null
-  const writerImg = $('img[alt^="Writer:"]').first()
-  if (writerImg.length) {
-    author = writerImg.attr('alt').replace(/^Writer:\s*/, '').trim()
-  }
+  const authorRaw    = metaItems[1] || null
+  const publishedRaw = metaItems[2] || null
 
-  // published_at: look for a paragraph like “Sep 24, 2023”
-  let published_at = null
-  paras.each((_, el) => {
-    const txt = $(el).text().trim()
-    if (/^[A-Za-z]{3}\s+\d{1,2},\s*\d{4}$/.test(txt) && !published_at) {
-      published_at = new Date(txt).toISOString()
-    }
-  })
-  // fallback so we never insert null into NOT NULL column
-  if (!published_at) {
-    published_at = new Date().toISOString()
-  }
+  const author       = authorRaw
+  let published_at   = publishedRaw ? new Date(publishedRaw).toISOString() : null
+  if (!published_at) published_at = new Date().toISOString()
 
-  // excerpt: the paragraph immediately after the date paragraph
-  let excerpt = ''
-  const dateIndex = paras.toArray().findIndex(el => {
-    const txt = $(el).text().trim()
-    return /^[A-Za-z]{3}\s+\d{1,2},\s*\d{4}$/.test(txt)
-  })
-  if (dateIndex >= 0) {
-    excerpt = paras.eq(dateIndex + 1).text().trim()
-  }
-  // as a last-ditch
-  if (!excerpt) {
-    excerpt = $('p').first().text().trim()
-  }
+  // excerpt: first <p> after that metadata list
+  const excerpt = $('h1').last().nextAll('p').first().text().trim()
 
-  // content: everything from after <h1> until “Related Posts”
+  // content: everything from after the title until “Related Posts”
   const contentParts = []
-  $('h1').nextAll().each((_, el) => {
-    const txt = $(el).text().trim()
-    if (/^Related Posts/.test(txt)) return false
-    contentParts.push($.html(el))
-  })
+  $('h1')
+    .last()
+    .nextAll()
+    .each((_, el) => {
+      const txt = $(el).text().trim()
+      if (/^Related Posts/.test(txt)) return false
+      contentParts.push($.html(el))
+    })
   const content = contentParts.join('\n').trim()
 
   return { title, slug, excerpt, content, author, published_at }
@@ -91,12 +75,12 @@ async function scrapePost(url) {
 async function migrate() {
   console.log('🔍 Fetching post links…')
   const postUrls = await fetchPostLinks()
-  console.log(`Found ${postUrls.length} posts`)  // :contentReference[oaicite:0]{index=0}
+  console.log(`Found ${postUrls.length} posts`)
 
   for (const url of postUrls) {
     try {
       console.log(`➡️  Scraping ${url}`)
-      const record = await scrapePost(url)         // :contentReference[oaicite:1]{index=1}
+      const record = await scrapePost(url)
 
       const { error } = await supabase
         .from('blogs')
@@ -112,4 +96,7 @@ async function migrate() {
   console.log('🎉 Migration complete!')
 }
 
-migrate()
+migrate().catch(err => {
+  console.error('Fatal error:', err.message)
+  process.exit(1)
+})
