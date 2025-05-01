@@ -1,3 +1,4 @@
+// migrations/migrate-blogs.mjs
 import axios from 'axios'
 import { load } from 'cheerio'
 import { createClient } from '@supabase/supabase-js'
@@ -35,15 +36,38 @@ async function scrapePost(url) {
   const res = await axios.get(url)
   const $   = load(res.data)
 
-  const title    = $('h1.post-title').text().trim()
-  const slug     = url.split('/').pop()
-  const excerpt  = $('article p').first().text().trim()
-  const content  = $('article').html().trim()
-  const category = $('a.category-link').first().text().trim() || null
-  const author   = $('span.author-name').first().text().trim() || null
+  // — Title & slug —
+  const title   = $('h1').first().text().trim()
+  const slug    = url.split('/').pop()
 
-  // Only include fields present in your 'blogs' table
-  return { title, slug, excerpt, content, category, author }
+  // — Excerpt & full content —
+  const excerpt = $('article p').first().text().trim()
+  const content = $('article').html().trim()
+
+  // — Category (if present) —
+  const category = $('a.category-link').first().text().trim() || null
+
+  // — Author via the Writer image’s alt attribute —
+  let author = null
+  const writerImg = $('img[alt^="Writer:"]')
+  if (writerImg.length) {
+    const alt = writerImg.attr('alt')                 // e.g. "Writer: Dr. Sameer Bhandari"
+    author = alt.replace(/^Writer:\s*/, '').trim()   // => "Dr. Sameer Bhandari"
+  }
+
+  // — Publish date by scanning text nodes for "Mon DD, YYYY" —
+  let created_at = null
+  $('*')
+    .contents()
+    .filter((i, node) => node.type === 'text')
+    .each((_, node) => {
+      const txt = node.data.trim()
+      if (!created_at && /^[A-Za-z]+\s+\d{1,2},\s*\d{4}$/.test(txt)) {
+        created_at = new Date(txt).toISOString()
+      }
+    })
+
+  return { title, slug, excerpt, content, category, author, created_at }
 }
 
 async function migrate() {
@@ -53,7 +77,7 @@ async function migrate() {
 
   for (const url of postUrls) {
     try {
-      console.log(`➡️  Scraping ${url}`)
+      console.log(`➡️ Scraping ${url}`)
       const post = await scrapePost(url)
 
       const { error } = await supabase
