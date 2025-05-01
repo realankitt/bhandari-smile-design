@@ -22,7 +22,7 @@ async function fetchPostLinks() {
     const $ = cheerio.load(res.data)
     const links = new Set()
     
-    $('a[href^="/blog/post/"]').each((_, el) => {
+    $('a[href^="/post/"]').each((_, el) => {
       const href = $(el).attr('href').split('?')[0]
       links.add(`${BASE_URL}${href}`)
     })
