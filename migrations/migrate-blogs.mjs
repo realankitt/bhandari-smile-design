@@ -1,5 +1,5 @@
 import axios from 'axios'
-import cheerio from 'cheerio'
+import { load } from 'cheerio'
 import { createClient } from '@supabase/supabase-js'
 
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL
@@ -15,7 +15,7 @@ const BASE_URL = 'https://www.bhandaridentalclinic.com'
 
 async function fetchPostLinks() {
   const res = await axios.get(`${BASE_URL}/blog`)
-  const $ = cheerio.load(res.data)
+  const $ = load(res.data)
   const links = new Set()
 
   $('a[href^="/blog/post/"]').each((_, el) => {
@@ -28,7 +28,7 @@ async function fetchPostLinks() {
 
 async function scrapePost(url) {
   const res = await axios.get(url)
-  const $ = cheerio.load(res.data)
+  const $ = load(res.data)
 
   const title = $('h1.post-title').text().trim()
   const slug  = url.split('/').pop()
