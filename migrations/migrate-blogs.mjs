@@ -1,99 +1,94 @@
-import { createClient } from '@supabase/supabase-js';
-import axios from 'axios';
-import * as cheerio from 'cheerio';
-import * as dotenv from 'dotenv';
+import { createClient } from '@supabase/supabase-js'
+import axios from 'axios'
+import * as cheerio from 'cheerio'
+import * as dotenv from 'dotenv'
 
-// Initialize dotenv
-dotenv.config();
+dotenv.config()
 
-// Validate environment variables
-const SUPABASE_URL = process.env.VITE_SUPABASE_URL;
-const SUPABASE_ANON_KEY = process.env.VITE_SUPABASE_ANON_KEY;
+const SUPABASE_URL = process.env.VITE_SUPABASE_URL
+const SUPABASE_ANON_KEY = process.env.VITE_SUPABASE_ANON_KEY
 
 if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
-  console.error('❌ Missing Supabase credentials in env');
-  process.exit(1);
+  console.error('❌ Missing Supabase credentials')
+  process.exit(1)
 }
 
-// Initialize Supabase client
-const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-const BASE_URL = 'https://www.bhandaridentalclinic.com';
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+const BASE_URL = 'https://www.bhandaridentalclinic.com'
 
 async function fetchPostLinks() {
   try {
-    const res = await axios.get(`${BASE_URL}/blog`);
-    const $ = cheerio.load(res.data);
-    const links = new Set();
-
+    const res = await axios.get(`${BASE_URL}/blog`)
+    const $ = cheerio.load(res.data)
+    const links = new Set()
+    
     $('a[href^="/blog/post/"]').each((_, el) => {
-      const href = $(el).attr('href').split('?')[0];
-      links.add(`${BASE_URL}${href}`);
-    });
-
-    return [...links];
+      const href = $(el).attr('href').split('?')[0]
+      links.add(`${BASE_URL}${href}`)
+    })
+    
+    return [...links]
   } catch (error) {
-    console.error('Error fetching post links:', error);
-    return [];
+    console.error('Error fetching links:', error.message)
+    return []
   }
 }
 
 async function scrapePost(url) {
   try {
-    const res = await axios.get(url);
-    const $ = cheerio.load(res.data);
-
-    const title = $('h1.post-title').text().trim();
-    const slug = url.split('/').pop();
-    const excerpt = $('article p').first().text().trim();
-    const content = $('article').html()?.trim() || '';
-    const heroImage = $('article img').first().attr('src') || null;
-    const category = $('a.category-link').first().text().trim() || null;
-    const author = $('span.author-name').first().text().trim() || null;
-    const dateStr = $('time').first().attr('datetime') || null;
-    const published = dateStr ? new Date(dateStr).toISOString() : null;
-
-    return { 
-      title, 
-      slug, 
-      excerpt, 
-      content, 
-      heroImage, 
-      category, 
-      author, 
-      published 
-    };
+    const res = await axios.get(url)
+    const $ = cheerio.load(res.data)
+    
+    const title = $('h1.post-title').text().trim()
+    const slug = url.split('/').pop()
+    const excerpt = $('article p').first().text().trim()
+    const content = $('article').html()?.trim() || ''
+    const heroImage = $('article img').first().attr('src') || null
+    const category = $('a.category-link').first().text().trim() || null
+    const author = $('span.author-name').first().text().trim() || null
+    const dateStr = $('time').first().attr('datetime') || null
+    const published = dateStr ? new Date(dateStr).toISOString() : null
+    
+    return {
+      title,
+      slug,
+      excerpt,
+      content,
+      heroImage,
+      category,
+      author,
+      published
+    }
   } catch (error) {
-    console.error(`Error scraping post ${url}:`, error);
-    throw error;
+    console.error(`Error scraping ${url}:`, error.message)
+    throw error
   }
 }
 
 async function migrate() {
-  console.log('🔍 Fetching post links…');
-  const postUrls = await fetchPostLinks();
-  console.log(`Found ${postUrls.length} posts`);
-
+  console.log('🔍 Fetching post links...')
+  const postUrls = await fetchPostLinks()
+  console.log(`Found ${postUrls.length} posts`)
+  
   for (const url of postUrls) {
     try {
-      console.log(`➡️ Scraping ${url}`);
-      const post = await scrapePost(url);
-
+      console.log(`➡️ Scraping ${url}`)
+      const post = await scrapePost(url)
+      
       const { error } = await supabase
         .from('blogs')
-        .upsert(post, { onConflict: 'slug' });
-
-      if (error) throw error;
-      console.log(`✅ Upserted ${post.slug}`);
+        .upsert(post, { onConflict: 'slug' })
+      
+      if (error) throw error
+      console.log(`✅ Upserted ${post.slug}`)
     } catch (err) {
-      console.error(`❌ Error processing ${url}:`, err.message);
+      console.error(`❌ Failed ${url}:`, err.message)
     }
   }
-
-  console.log('🎉 Migration complete!');
+  console.log('🎉 Migration complete!')
 }
 
-// Run migration
 migrate().catch(err => {
-  console.error('Fatal error:', err);
-  process.exit(1);
-});
+  console.error('Fatal error:', err)
+  process.exit(1)
+})

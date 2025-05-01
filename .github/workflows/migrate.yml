@@ -15,80 +15,14 @@ jobs:
         with:
           node-version: '20'
 
-      # 👇 install exactly what your script needs, bypassing lockfile issues
       - name: Install dependencies
         run: npm install @supabase/supabase-js dotenv axios cheerio
 
       - name: Create migration directory
         run: mkdir -p migrations
 
-      - name: Create migration file
-        run: |
-          cat > migrations/migrate-blogs.mjs << 'EOF'
-          import axios from 'axios'
-          import cheerio from 'cheerio'
-          import { createClient } from '@supabase/supabase-js'
-          import * as dotenv from 'dotenv'
-          dotenv.config()
-
-          const supabase = createClient(
-            process.env.VITE_SUPABASE_URL,
-            process.env.VITE_SUPABASE_ANON_KEY
-          )
-          const BASE_URL = 'https://www.bhandaridentalclinic.com'
-
-          async function fetchPostLinks() {
-            const res = await axios.get(`${BASE_URL}/blog`)
-            const $ = cheerio.load(res.data)
-            const links = new Set()
-            $('a[href^="/blog/post/"]').each((_, el) => {
-              const href = $(el).attr('href').split('?')[0]
-              links.add(`${BASE_URL}${href}`)
-            })
-            return [...links]
-          }
-
-          async function scrapePost(url) {
-            const res = await axios.get(url)
-            const $ = cheerio.load(res.data)
-            const title = $('h1.post-title').text().trim()
-            const slug  = url.split('/').pop()
-            const excerpt = $('article p').first().text().trim()
-            const content = $('article').html().trim()
-            const heroImage = $('article img').first().attr('src') || null
-            const category  = $('a.category-link').first().text().trim() || null
-            const author    = $('span.author-name').first().text().trim() || null
-            const dateStr   = $('time').first().attr('datetime') || null
-            const published = dateStr ? new Date(dateStr).toISOString() : null
-            return { title, slug, excerpt, content, heroImage, category, author, published }
-          }
-
-          async function migrate() {
-            console.log('🔍 Fetching post links…')
-            const postUrls = await fetchPostLinks()
-            console.log(`Found ${postUrls.length} posts`)
-
-            for (const url of postUrls) {
-              try {
-                console.log(`➡️  Scraping ${url}`)
-                const post = await scrapePost(url)
-                const { error } = await supabase
-                  .from('blogs')
-                  .upsert(post, { onConflict: 'slug' })
-                if (error) throw error
-                console.log(`✅ Upserted ${post.slug}`)
-              } catch (err) {
-                console.error(`❌ Failed ${url}:`, err.message)
-              }
-            }
-            console.log('🎉 Migration complete!')
-          }
-
-          migrate().catch(err => {
-            console.error('Fatal error:', err)
-            process.exit(1)
-          })
-          EOF
+      - name: Copy migration script
+        run: cp migrations/migrate-blogs.mjs migrations/migrate-blogs.mjs
 
       - name: Run migration
         env:
