@@ -27,12 +27,17 @@ jobs:
     - name: Install dependencies
       run: npm install
         
+    - name: Create migration directory
+      run: mkdir -p migrations
+        
     - name: Create migration file
       run: |
-        mkdir -p migrations
-        cat > migrations/migrate-blogs.js << 'EOF'
-        const { createClient } = require('@supabase/supabase-js');
-
+        cat > migrations/migrate-blogs.mjs << 'EOF'
+        import { createClient } from '@supabase/supabase-js';
+        import * as dotenv from 'dotenv';
+        
+        dotenv.config();
+        
         const supabase = createClient(
           process.env.VITE_SUPABASE_URL,
           process.env.VITE_SUPABASE_ANON_KEY
@@ -49,7 +54,6 @@ jobs:
             author: "Dr. Tanmay Bhandari",
             published_at: new Date().toISOString()
           }
-          // Add more blogs here
         ];
 
         async function migrate() {
@@ -76,4 +80,4 @@ jobs:
       env:
         VITE_SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
         VITE_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
-      run: node migrations/migrate-blogs.js
+      run: node migrations/migrate-blogs.mjs
