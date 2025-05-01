@@ -64,7 +64,7 @@ export function Footer() {
               </li>
               <li className="flex items-center gap-3">
                 <MessageSquareIcon size={20} className="text-dental-400 shrink-0" />
-                <a href="https://api.whatsapp.com/send?phone=919834604977" className="text-gray-400 hover:text-dental-300 transition-colors" target="_blank" rel="noopener noreferrer">
+                <a href="https://api.whatsapp.com/send/?phone=%2B912029701777&text=Hi%2C+I+am+looking+for+an+appointment.+Can+you+help+me%3F&type=phone_number&app_absent=0" className="text-gray-400 hover:text-dental-300 transition-colors" target="_blank" rel="noopener noreferrer">
                   WhatsApp Chat
                 </a>
               </li>
