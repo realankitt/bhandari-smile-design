@@ -35,39 +35,32 @@ async function scrapePost(url) {
   const res = await axios.get(url)
   const $   = load(res.data)
 
-  // pick the *last* H1 on the page (the post’s title), not the header’s  
-  const title = $('h1').last().text().trim()  // :contentReference[oaicite:0]{index=0}
+  // 1) Title & slug
+  const title = $('h1').last().text().trim()
   const slug  = url.split('/').pop()
 
-  // metadata list under the title
-  const metaItems = $('h1')
-    .last()
-    .next('ul')
-    .find('li')
-    .toArray()
-    .map(li => $(li).text().trim())
-
+  // 2) Metadata list (<ul><li>) right under the <h1>
+  const metaList     = $('h1').last().next('ul')
+  const metaItems    = metaList.find('li').toArray().map(li => $(li).text().trim())
+  // [ '', 'Dr. Sameer Bhandari', 'Sep 24, 2023', '7 min read' ]
   const authorRaw    = metaItems[1] || null
   const publishedRaw = metaItems[2] || null
-
   const author       = authorRaw
-  let published_at   = publishedRaw ? new Date(publishedRaw).toISOString() : null
-  if (!published_at) published_at = new Date().toISOString()
+  const published_at = publishedRaw
+    ? new Date(publishedRaw).toISOString()
+    : new Date().toISOString()
 
-  // excerpt: first <p> after that metadata list
-  const excerpt = $('h1').last().nextAll('p').first().text().trim()
+  // 3) Excerpt: the very first <p> after the metadata list
+  const excerpt = metaList.nextAll('p').first().text().trim()
 
-  // content: everything from after the title until “Related Posts”
-  const contentParts = []
-  $('h1')
-    .last()
-    .nextAll()
-    .each((_, el) => {
-      const txt = $(el).text().trim()
-      if (/^Related Posts/.test(txt)) return false
-      contentParts.push($.html(el))
-    })
-  const content = contentParts.join('\n').trim()
+  // 4) Content: **everything** from after that <ul> up **until** the “Related Posts” <h2>
+  //    which marks the end of the post body :contentReference[oaicite:0]{index=0}
+  const contentElems = metaList.nextUntil('h2')
+  const content = contentElems
+    .map((i, el) => $.html(el))
+    .get()
+    .join('\n')
+    .trim()
 
   return { title, slug, excerpt, content, author, published_at }
 }
@@ -79,7 +72,7 @@ async function migrate() {
 
   for (const url of postUrls) {
     try {
-      console.log(`➡️  Scraping ${url}`)
+      console.log(`➡️ Scraping ${url}`)
       const record = await scrapePost(url)
 
       const { error } = await supabase
