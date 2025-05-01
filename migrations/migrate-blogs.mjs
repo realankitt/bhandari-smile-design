@@ -35,31 +35,35 @@ async function scrapePost(url) {
   const res = await axios.get(url)
   const $   = load(res.data)
 
-  // 1) Title & slug
+  // — 1) Title & slug —
   const title = $('h1').last().text().trim()
   const slug  = url.split('/').pop()
 
-  // 2) Metadata list (<ul><li>) right under the <h1>
+  // — 2) Metadata list under the title —
   const metaList     = $('h1').last().next('ul')
   const metaItems    = metaList.find('li').toArray().map(li => $(li).text().trim())
   // [ '', 'Dr. Sameer Bhandari', 'Sep 24, 2023', '7 min read' ]
   const authorRaw    = metaItems[1] || null
   const publishedRaw = metaItems[2] || null
+
   const author       = authorRaw
   const published_at = publishedRaw
     ? new Date(publishedRaw).toISOString()
-    : new Date().toISOString()
+    : new Date().toISOString()  // never null
 
-  // 3) Excerpt: the very first <p> after the metadata list
-  const excerpt = metaList.nextAll('p').first().text().trim()
-
-  // 4) Content: **everything** from after that <ul> up **until** the “Related Posts” <h2>
-  //    which marks the end of the post body :contentReference[oaicite:0]{index=0}
-  const contentElems = metaList.nextUntil('h2')
+  // — 3) Content slice: everything after the <ul> until the “Related Posts” <h2> :contentReference[oaicite:0]{index=0}
+  const contentElems = metaList.nextUntil('h2:contains("Related Posts")')
   const content = contentElems
     .map((i, el) => $.html(el))
     .get()
     .join('\n')
+    .trim()
+
+  // — 4) Excerpt: the very first <p> inside that slice —
+  const excerpt = contentElems
+    .filter('p')
+    .first()
+    .text()
     .trim()
 
   return { title, slug, excerpt, content, author, published_at }
@@ -72,7 +76,7 @@ async function migrate() {
 
   for (const url of postUrls) {
     try {
-      console.log(`➡️ Scraping ${url}`)
+      console.log(`➡️  Scraping ${url}`)
       const record = await scrapePost(url)
 
       const { error } = await supabase
