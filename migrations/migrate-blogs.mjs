@@ -1,18 +1,15 @@
 import axios from 'axios'
 import { load } from 'cheerio'
 import { createClient } from '@supabase/supabase-js'
-import * as dotenv from 'dotenv'
+import dotenv from 'dotenv'
 
-const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL
-const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY
-
-// Load local .env when running locally; GitHub Actions will inject via process.env
 dotenv.config()
+
 const SUPABASE_URL = process.env.VITE_SUPABASE_URL
 const SUPABASE_ANON_KEY = process.env.VITE_SUPABASE_ANON_KEY
 
 if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
-  console.error('❌ Missing Supabase env vars')
+  console.error('❌ Missing Supabase credentials in env')
   process.exit(1)
 }
 
@@ -36,10 +33,10 @@ async function scrapePost(url) {
   const res = await axios.get(url)
   const $ = load(res.data)
 
-  const title = $('h1.post-title').text().trim()
-  const slug  = url.split('/').pop()
-  const excerpt = $('article p').first().text().trim()
-  const content = $('article').html().trim()
+  const title     = $('h1.post-title').text().trim()
+  const slug      = url.split('/').pop()
+  const excerpt   = $('article p').first().text().trim()
+  const content   = $('article').html().trim()
   const heroImage = $('article img').first().attr('src') || null
   const category  = $('a.category-link').first().text().trim() || null
   const author    = $('span.author-name').first().text().trim() || null
@@ -56,21 +53,17 @@ async function migrate() {
 
   for (const url of postUrls) {
     try {
-      console.log(`➡️  Scraping ${url}`)
+      console.log(`➡️ Scraping ${url}`)
       const post = await scrapePost(url)
 
-      const { data, error } = await supabase
+      const { error } = await supabase
         .from('blogs')
         .upsert(post, { onConflict: 'slug' })
-        .select()
 
-      if (error) {
-        console.error(`❌ Error upserting ${post.slug}:`, error)
-      } else {
-        console.log(`✅ Upserted ${post.slug}`)
-      }
+      if (error) throw error
+      console.log(`✅ Upserted ${post.slug}`)
     } catch (err) {
-      console.error(`❌ Failed ${url}:`, err.message)
+      console.error(`❌ Error processing ${url}:`, err.message)
     }
   }
 
