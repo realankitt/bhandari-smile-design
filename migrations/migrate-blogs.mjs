@@ -35,17 +35,15 @@ async function scrapePost(url) {
   const res = await axios.get(url)
   const $   = load(res.data)
 
-  const title     = $('h1.post-title').text().trim()
-  const slug      = url.split('/').pop()
-  const excerpt   = $('article p').first().text().trim()
-  const content   = $('article').html().trim()
-  const category  = $('a.category-link').first().text().trim() || null
-  const author    = $('span.author-name').first().text().trim() || null
-  const dateStr   = $('time').first().attr('datetime') || null
-  const published = dateStr ? new Date(dateStr).toISOString() : null
+  const title    = $('h1.post-title').text().trim()
+  const slug     = url.split('/').pop()
+  const excerpt  = $('article p').first().text().trim()
+  const content  = $('article').html().trim()
+  const category = $('a.category-link').first().text().trim() || null
+  const author   = $('span.author-name').first().text().trim() || null
 
-  // Only include columns actually in your 'blogs' table
-  return { title, slug, excerpt, content, category, author, published }
+  // Only include fields present in your 'blogs' table
+  return { title, slug, excerpt, content, category, author }
 }
 
 async function migrate() {
