@@ -1,9 +1,15 @@
 import axios from 'axios'
 import { load } from 'cheerio'
 import { createClient } from '@supabase/supabase-js'
+import * as dotenv from 'dotenv'
 
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL
 const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY
+
+// Load local .env when running locally; GitHub Actions will inject via process.env
+dotenv.config()
+const SUPABASE_URL = process.env.VITE_SUPABASE_URL
+const SUPABASE_ANON_KEY = process.env.VITE_SUPABASE_ANON_KEY
 
 if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
   console.error('❌ Missing Supabase env vars')
