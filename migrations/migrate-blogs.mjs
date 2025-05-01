@@ -17,99 +17,75 @@ if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
 
-async function fetchPostsMeta() {
+async function fetchPostLinks() {
   const res = await axios.get(`${BASE_URL}/blog`)
   const $   = load(res.data)
-  const posts = []
+  const links = new Set()
 
-  // Each post card on the index page has a link, writer image, author name,
-  // and a line like "Sep 24, 2023 7 min read" :contentReference[oaicite:1]{index=1}
-  $('.post-card, .widget-item, .post-list-item').each((_, el) => {
-    const linkEl = $(el).find('a[href*="/post/"]').first()
-    if (!linkEl.length) return
-
-    const href = linkEl.attr('href').split('?')[0]
+  // grab any <a> whose href contains "/post/"
+  $('a[href*="/post/"]').each((_, el) => {
+    const href = $(el).attr('href').split('?')[0]
     const url  = href.startsWith('http') ? href : `${BASE_URL}${href}`
-    const title= linkEl.text().trim()
-    const slug = url.split('/').pop()
-
-    // Author comes from the alt of the first image that starts with "Writer:"
-    let author = null
-    const writerImg = $(el).find('img[alt^="Writer:"]').first()
-    if (writerImg.length) {
-      author = writerImg.attr('alt').replace(/^Writer:\s*/, '').trim()
-    }
-
-    // The same block contains a text node like "Sep 24, 2023 7 min read"
-    // We grab that, split on whitespace and take the first three tokens
-    let published = null
-    const metaText = $(el)
-      .find('img[alt^="Writer:"]')
-      .parent()            // assuming the parent also holds the date text
-      .text()              // this will include "Dr. Sameer BhandariSep 24, 2023 7 min read"
-      .replace(/\s+/g, ' ') // normalize whitespace
-    const dateMatch = metaText.match(/([A-Za-z]+\s+\d{1,2},\s*\d{4})/)
-    if (dateMatch) {
-      published = new Date(dateMatch[1]).toISOString()
-    }
-
-    posts.push({ url, title, slug, author, published })
+    links.add(url)
   })
 
-  return posts
+  return [...links]
+}
+
+async function scrapePost(url) {
+  const res = await axios.get(url)
+  const $   = load(res.data)
+
+  // — Title & slug —
+  const title = $('h1').first().text().trim()
+  const slug  = url.split('/').pop()
+
+  // — Metadata list (<ul><li>) right after the <h1> —
+  const metaList = $('h1').next('ul')
+  const items    = metaList.find('li').toArray().map(li => $(li).text().trim())
+  // items ≈ [ '', 'Dr. Sameer Bhandari', 'Sep 24, 2023', '7 min read' ]
+  const authorRaw    = items[1] || null
+  const publishedRaw = items[2] || null
+  const author    = authorRaw
+  const published = publishedRaw
+    ? new Date(publishedRaw).toISOString()
+    : null
+
+  // — Excerpt: first <p> after the metadata list —
+  const excerpt = metaList.nextAll('p').first().text().trim()
+
+  // — Content: everything from that first <p> onward,
+  //    up until the “Related Posts” section —
+  const contentParts = []
+  metaList.nextAll().each((i, el) => {
+    const txt = $(el).text().trim()
+    // stop once we hit “Related Posts”
+    if (/^Related Posts/.test(txt)) return false
+    contentParts.push($.html(el))
+  })
+  const content = contentParts.join('\n').trim()
+
+  return { title, slug, excerpt, content, author, published }
 }
 
 async function migrate() {
-  console.log('🔍 Fetching blog metadata from index…')
-  const metas = await fetchPostsMeta()
-  console.log(`Found ${metas.length} posts on index`)
+  console.log('🔍 Fetching post links…')
+  const postUrls = await fetchPostLinks()
+  console.log(`Found ${postUrls.length} posts`)
 
-  // Fetch existing slugs so we can avoid duplicates
-  const { data: existing, error: e1 } = await supabase
-    .from('blogs')
-    .select('slug')
-  if (e1) throw e1
-  const existingSlugs = new Set(existing.map(r => r.slug))
-
-  for (const meta of metas) {
+  for (const url of postUrls) {
     try {
-      console.log(`➡️  Processing ${meta.slug}`)
+      console.log(`➡️  Scraping ${url}`)
+      const post = await scrapePost(url)
 
-      // Fetch full post content
-      const postRes = await axios.get(meta.url)
-      const $2 = load(postRes.data)
-      const content = $2('article').html()?.trim() || ''
+      const { error } = await supabase
+        .from('blogs')
+        .upsert(post, { onConflict: 'slug' })
 
-      const record = {
-        title:     meta.title,
-        slug:      meta.slug,
-        excerpt:   $2('article p').first().text().trim(),
-        content,
-        author:    meta.author,
-        published: meta.published,
-      }
-
-      let upsertError
-      if (existingSlugs.has(meta.slug)) {
-        const { error } = await supabase
-          .from('blogs')
-          .update(record)
-          .eq('slug', meta.slug)
-        upsertError = error
-        console.log(`🔄 Updated ${meta.slug}`)
-      } else {
-        const { error } = await supabase
-          .from('blogs')
-          .insert(record)
-        upsertError = error
-        console.log(`✅ Inserted ${meta.slug}`)
-      }
-
-      if (upsertError) {
-        console.error(`❌ Supabase error for ${meta.slug}:`, upsertError.message)
-      }
+      if (error) throw error
+      console.log(`✅ Upserted ${post.slug}`)
     } catch (err) {
-      console.error(`❌ Failed ${meta.slug}:`, err.message)
+      console.error(`❌ Error processing ${url}:`, err.message)
     }
   }
 
