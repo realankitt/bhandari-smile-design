@@ -25,7 +25,9 @@ jobs:
         node-version: '20'
         
     - name: Install dependencies
-      run: npm install
+      run: |
+        npm install @supabase/supabase-js
+        npm install dotenv
         
     - name: Create migration directory
       run: mkdir -p migrations
@@ -35,6 +37,11 @@ jobs:
         cat > migrations/migrate-blogs.mjs << 'EOF'
         import { createClient } from '@supabase/supabase-js';
         import * as dotenv from 'dotenv';
+        import { fileURLToPath } from 'url';
+        import { dirname } from 'path';
+        
+        const __filename = fileURLToPath(import.meta.url);
+        const __dirname = dirname(__filename);
         
         dotenv.config();
         
@@ -73,7 +80,7 @@ jobs:
           }
         }
 
-        migrate();
+        migrate().catch(console.error);
         EOF
 
     - name: Run migration
