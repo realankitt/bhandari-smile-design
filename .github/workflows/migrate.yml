@@ -35,7 +35,6 @@ jobs:
     - name: Create migration file
       run: |
         cat > migrations/migrate-blogs.mjs << 'EOF'
-        // Using ES modules syntax
         import { createClient } from '@supabase/supabase-js';
         import * as dotenv from 'dotenv';
         
@@ -45,6 +44,22 @@ jobs:
           process.env.VITE_SUPABASE_URL,
           process.env.VITE_SUPABASE_ANON_KEY
         );
+
+        // Test connection and permissions
+        async function testConnection() {
+          try {
+            const { data, error } = await supabase
+              .from('blogs')
+              .select('count')
+              .single();
+            
+            if (error) throw error;
+            console.log('Connection successful. Current blog count:', data.count);
+          } catch (error) {
+            console.error('Connection test failed:', error);
+            process.exit(1);
+          }
+        }
 
         const oldBlogs = [
           {
@@ -60,6 +75,8 @@ jobs:
         ];
 
         const migrate = async () => {
+          await testConnection();
+          
           for (const blog of oldBlogs) {
             try {
               const { data, error } = await supabase
@@ -70,7 +87,7 @@ jobs:
               if (error) throw error;
               console.log(`Migrated: ${blog.title}`);
             } catch (error) {
-              console.error(`Failed to migrate ${blog.title}:`, error);
+              console.error(`Failed to migrate "${blog.title}":`, error);
               process.exit(1);
             }
           }
