@@ -22,6 +22,7 @@ async function fetchPostLinks() {
   const $   = load(res.data)
   const links = new Set()
 
+  // grabs every <a> whose href contains “/post/…”
   $('a[href*="/post/"]').each((_, el) => {
     const href = $(el).attr('href').split('?')[0]
     const url  = href.startsWith('http') ? href : `${BASE_URL}${href}`
@@ -38,34 +39,50 @@ async function scrapePost(url) {
   const title = $('h1').first().text().trim()
   const slug  = url.split('/').pop()
 
-  // Find the metadata <ul><li> right after the <h1>
-  const metaItems = $('h1')
-    .next('ul')
-    .find('li')
-    .toArray()
-    .map(li => $(li).text().trim())
+  // all <p> tags after the <h1>
+  const paras = $('h1').nextAll().filter((_, el) => el.tagName === 'p')
 
-  // metaItems ≈ [ '', 'Dr. Sameer Bhandari', 'Sep 24, 2023', '7 min read' ]
-  const authorRaw    = metaItems[1] || null
-  const publishedRaw = metaItems[2] || null
+  // author: from the “Writer: …” alt text
+  let author = null
+  const writerImg = $('img[alt^="Writer:"]').first()
+  if (writerImg.length) {
+    author = writerImg.attr('alt').replace(/^Writer:\s*/, '').trim()
+  }
 
-  const author = authorRaw
-  const published_at = publishedRaw
-    ? new Date(publishedRaw).toISOString()
-    : null
+  // published_at: look for a paragraph like “Sep 24, 2023”
+  let published_at = null
+  paras.each((_, el) => {
+    const txt = $(el).text().trim()
+    if (/^[A-Za-z]{3}\s+\d{1,2},\s*\d{4}$/.test(txt) && !published_at) {
+      published_at = new Date(txt).toISOString()
+    }
+  })
+  // fallback so we never insert null into NOT NULL column
+  if (!published_at) {
+    published_at = new Date().toISOString()
+  }
 
-  // Excerpt: first <p> after that metadata list
-  const excerpt = $('h1').nextAll('p').first().text().trim()
+  // excerpt: the paragraph immediately after the date paragraph
+  let excerpt = ''
+  const dateIndex = paras.toArray().findIndex(el => {
+    const txt = $(el).text().trim()
+    return /^[A-Za-z]{3}\s+\d{1,2},\s*\d{4}$/.test(txt)
+  })
+  if (dateIndex >= 0) {
+    excerpt = paras.eq(dateIndex + 1).text().trim()
+  }
+  // as a last-ditch
+  if (!excerpt) {
+    excerpt = $('p').first().text().trim()
+  }
 
-  // Content: everything from that first <p> until “Related Posts”
+  // content: everything from after <h1> until “Related Posts”
   const contentParts = []
-  $('h1')
-    .nextAll()
-    .each((i, el) => {
-      const txt = $(el).text().trim()
-      if (/^Related Posts/.test(txt)) return false
-      contentParts.push($.html(el))
-    })
+  $('h1').nextAll().each((_, el) => {
+    const txt = $(el).text().trim()
+    if (/^Related Posts/.test(txt)) return false
+    contentParts.push($.html(el))
+  })
   const content = contentParts.join('\n').trim()
 
   return { title, slug, excerpt, content, author, published_at }
@@ -74,12 +91,12 @@ async function scrapePost(url) {
 async function migrate() {
   console.log('🔍 Fetching post links…')
   const postUrls = await fetchPostLinks()
-  console.log(`Found ${postUrls.length} posts`)
+  console.log(`Found ${postUrls.length} posts`)  // :contentReference[oaicite:0]{index=0}
 
   for (const url of postUrls) {
     try {
       console.log(`➡️  Scraping ${url}`)
-      const record = await scrapePost(url)
+      const record = await scrapePost(url)         // :contentReference[oaicite:1]{index=1}
 
       const { error } = await supabase
         .from('blogs')
@@ -95,7 +112,4 @@ async function migrate() {
   console.log('🎉 Migration complete!')
 }
 
-migrate().catch(err => {
-  console.error('Fatal error:', err.message)
-  process.exit(1)
-})
+migrate()
