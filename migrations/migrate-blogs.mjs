@@ -5,8 +5,8 @@ import dotenv from 'dotenv'
 
 dotenv.config()
 
-const SUPABASE_URL = process.env.VITE_SUPABASE_URL
-const SUPABASE_ANON_KEY = process.env.VITE_SUPABASE_ANON_KEY
+const SUPABASE_URL     = process.env.VITE_SUPABASE_URL
+const SUPABASE_ANON_KEY= process.env.VITE_SUPABASE_ANON_KEY
 
 if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
   console.error('❌ Missing Supabase credentials in env')
@@ -18,13 +18,19 @@ const BASE_URL = 'https://www.bhandaridentalclinic.com'
 
 async function fetchPostLinks() {
   const res = await axios.get(`${BASE_URL}/blog`)
-  const $ = load(res.data)
+  const $   = load(res.data)
   const links = new Set()
 
-  // Posts live under `/post/...`, not `/blog/post/...`
-  $('a[href^="/post/"]').each((_, el) => {
-    const href = $(el).attr('href').split('?')[0]
-    links.add(`${BASE_URL}${href}`)
+  $('a').each((_, el) => {
+    const href = $(el).attr('href')?.split('?')[0]
+    if (!href || !href.includes('/post/')) return
+
+    // normalize absolute vs relative
+    const url = href.startsWith('http')
+      ? href
+      : `${BASE_URL}${href}`
+
+    links.add(url)
   })
 
   return [...links]
@@ -32,7 +38,7 @@ async function fetchPostLinks() {
 
 async function scrapePost(url) {
   const res = await axios.get(url)
-  const $ = load(res.data)
+  const $   = load(res.data)
 
   const title     = $('h1.post-title').text().trim()
   const slug      = url.split('/').pop()
@@ -54,7 +60,7 @@ async function migrate() {
 
   for (const url of postUrls) {
     try {
-      console.log(`➡️  Scraping ${url}`)
+      console.log(`➡️ Scraping ${url}`)
       const post = await scrapePost(url)
 
       const { error } = await supabase
