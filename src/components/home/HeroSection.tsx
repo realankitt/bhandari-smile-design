@@ -4,7 +4,7 @@ import { Button } from "../ui/button";
 export function HeroSection() {
   const openWhatsApp = () => {
     window.open(
-      "https://api.whatsapp.com/send?phone=919834604977",
+      "https://api.whatsapp.com/send/?phone=%2B912029701777&text=Hi%2C+I+am+looking+for+an+appointment.+Can+you+help+me%3F&type=phone_number&app_absent=0",
       "_blank"
     );
   };
