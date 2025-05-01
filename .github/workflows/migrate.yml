@@ -9,98 +9,98 @@ on:
         default: 'production'
         type: choice
         options:
-        - production
-        - development
+          - production
+          - development
 
 jobs:
   migrate:
     runs-on: ubuntu-latest
-    
+
     steps:
-    - uses: actions/checkout@v4
-    
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '20'
-        
-    - name: Install dependencies
-      run: |
-        npm install @supabase/supabase-js
-        npm install dotenv
-        
-    - name: Create migration directory
-      run: mkdir -p migrations
-        
-    - name: Create migration file
-      run: |
-        cat > migrations/migrate-blogs.mjs << 'EOF'
-        import { createClient } from '@supabase/supabase-js';
-        import * as dotenv from 'dotenv';
-        
-        dotenv.config();
-        
-        const supabase = createClient(
-          process.env.VITE_SUPABASE_URL,
-          process.env.VITE_SUPABASE_ANON_KEY
-        );
+      - uses: actions/checkout@v4
 
-        // Test connection and permissions
-        async function testConnection() {
-          try {
-            const { data, error } = await supabase
-              .from('blogs')
-              .select('count')
-              .single();
-            
-            if (error) throw error;
-            console.log('Connection successful. Current blog count:', data.count);
-          } catch (error) {
-            console.error('Connection test failed:', error);
-            process.exit(1);
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Create migration directory
+        run: mkdir -p migrations
+
+      - name: Create migration file
+        run: |
+          cat > migrations/migrate-blogs.mjs << 'EOF'
+          import axios from 'axios'
+          import cheerio from 'cheerio'
+          import { createClient } from '@supabase/supabase-js'
+          import * as dotenv from 'dotenv'
+
+          dotenv.config()
+
+          const supabase = createClient(
+            process.env.VITE_SUPABASE_URL,
+            process.env.VITE_SUPABASE_ANON_KEY
+          )
+          const BASE_URL = 'https://www.bhandaridentalclinic.com'
+
+          async function fetchPostLinks() {
+            const res = await axios.get(`${BASE_URL}/blog`)
+            const $ = cheerio.load(res.data)
+            const links = new Set()
+            $('a[href^="/blog/post/"]').each((_, el) => {
+              const href = $(el).attr('href').split('?')[0]
+              links.add(`${BASE_URL}${href}`)
+            })
+            return [...links]
           }
-        }
 
-        const oldBlogs = [
-          {
-            title: "The Benefits of Invisalign Over Traditional Braces",
-            slug: "benefits-invisalign-over-traditional-braces",
-            excerpt: "Exploring why Invisalign clear aligners...",
-            content: `<h2>Why Choose Invisalign?</h2>...`,
-            image: "https://example.com/image.jpg",
-            category: "Invisalign",
-            author: "Dr. Tanmay Bhandari",
-            published_at: new Date().toISOString()
+          async function scrapePost(url) {
+            const res = await axios.get(url)
+            const $ = cheerio.load(res.data)
+            const title = $('h1.post-title').text().trim()
+            const slug  = url.split('/').pop()
+            const excerpt = $('article p').first().text().trim()
+            const content = $('article').html().trim()
+            const heroImage = $('article img').first().attr('src') || null
+            const category  = $('a.category-link').first().text().trim() || null
+            const author    = $('span.author-name').first().text().trim() || null
+            const dateStr   = $('time').first().attr('datetime') || null
+            const published = dateStr ? new Date(dateStr).toISOString() : null
+            return { title, slug, excerpt, content, heroImage, category, author, published }
           }
-        ];
 
-        const migrate = async () => {
-          await testConnection();
-          
-          for (const blog of oldBlogs) {
-            try {
-              const { data, error } = await supabase
-                .from('blogs')
-                .insert(blog)
-                .single();
+          async function migrate() {
+            console.log('🔍 Fetching post links…')
+            const postUrls = await fetchPostLinks()
+            console.log(`Found ${postUrls.length} posts`)
 
-              if (error) throw error;
-              console.log(`Migrated: ${blog.title}`);
-            } catch (error) {
-              console.error(`Failed to migrate "${blog.title}":`, error);
-              process.exit(1);
+            for (const url of postUrls) {
+              try {
+                console.log(`➡️  Scraping ${url}`)
+                const post = await scrapePost(url)
+                const { error } = await supabase
+                  .from('blogs')
+                  .upsert(post, { onConflict: 'slug' })
+                if (error) throw error
+                console.log(`✅ Upserted ${post.slug}`)
+              } catch (err) {
+                console.error(`❌ Failed ${url}:`, err.message)
+              }
             }
+            console.log('🎉 Migration complete!')
           }
-        };
 
-        migrate().catch((error) => {
-          console.error('Migration failed:', error);
-          process.exit(1);
-        });
-        EOF
+          migrate().catch(err => {
+            console.error('Fatal error:', err)
+            process.exit(1)
+          })
+          EOF
 
-    - name: Run migration
-      env:
-        VITE_SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-        VITE_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
-      run: node migrations/migrate-blogs.mjs  # Changed from .js to .mjs
+      - name: Run migration
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: node migrations/migrate-blogs.mjs
