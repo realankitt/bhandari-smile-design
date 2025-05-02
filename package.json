@@ -4,11 +4,11 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "TINA_PUBLIC_IS_LOCAL=true tinacms dev -c \"vite\"",
-    "build": "TINA_PUBLIC_IS_LOCAL=false tinacms build && vite build",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
-    "preview": "vite preview",
     "migrate-blogs": "node -r ts-node/register scripts/migrate-blogs.ts"
   },
   "dependencies": {
@@ -64,14 +64,12 @@
     "sonner": "^1.5.0",
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7",
-    "tinacms": "^2.7.5",
     "vaul": "^0.9.3",
     "zod": "^3.23.8"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",
     "@tailwindcss/typography": "^0.5.15",
-    "@tinacms/cli": "^1.9.5",
     "@types/node": "^22.15.3",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
