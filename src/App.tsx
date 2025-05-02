@@ -16,9 +16,9 @@ const queryClient = new QueryClient({
 });
 
 const cms = new TinaCMS({
-  clientId: process.env.NEXT_PUBLIC_TINA_CLIENT_ID || '', // Updated to match .env
-  branch: 'main', // Explicitly set branch
-  token: process.env.TINA_TOKEN, // Updated to match .env
+  clientId: process.env.NEXT_PUBLIC_TINA_CLIENT_ID || '',
+  branch: process.env.GITHUB_BRANCH || 'remake', // Update branch
+  token: process.env.TINA_TOKEN,
   mediaStore: async () => {
     const pack = await import('next-tinacms-cloudinary');
     return pack.TinaCloudCloudinaryMediaStore;
