@@ -8,7 +8,7 @@ import { ADMIN_EMAIL } from '@/lib/constants'
 export default function AdminLogin() {
   const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
-  const [email, setEmail] = useState('')
+  const [email, setEmail] = useState(ADMIN_EMAIL) // Pre-fill admin email
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
 
@@ -18,12 +18,6 @@ export default function AdminLogin() {
     setError('')
 
     try {
-      // First check if email is authorized
-      if (email !== ADMIN_EMAIL) {
-        setError('Unauthorized access')
-        return
-      }
-
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password
@@ -37,6 +31,11 @@ export default function AdminLogin() {
 
       if (!data.user) {
         setError('No user data returned')
+        return
+      }
+
+      if (data.user.email !== ADMIN_EMAIL) {
+        setError('Unauthorized access')
         return
       }
 
@@ -68,6 +67,7 @@ export default function AdminLogin() {
               value={email}
               onChange={e => setEmail(e.target.value)}
               required
+              disabled // Lock the email field
             />
           </div>
 
@@ -78,6 +78,7 @@ export default function AdminLogin() {
               value={password}
               onChange={e => setPassword(e.target.value)}
               required
+              autoFocus // Focus on password field
             />
           </div>
 
