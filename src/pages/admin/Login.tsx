@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { supabase } from '@/lib/supabase'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import { ADMIN_EMAIL } from '@/lib/constants'
 
 export default function AdminLogin() {
   const navigate = useNavigate()
@@ -17,26 +18,32 @@ export default function AdminLogin() {
     setError('')
 
     try {
+      // First check if email is authorized
+      if (email !== ADMIN_EMAIL) {
+        setError('Unauthorized access')
+        return
+      }
+
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password
       })
 
       if (error) {
-        // Show the actual error message for debugging
+        console.error('Supabase auth error:', error)
         setError(error.message)
-        throw error
+        return
       }
-      
-      if (data?.user?.email !== ADMIN_EMAIL) {
-        setError('Unauthorized access')
+
+      if (!data.user) {
+        setError('No user data returned')
         return
       }
 
       navigate('/admin')
     } catch (error: any) {
-      console.error('Login error:', error) // Add debug logging
-      setError(error.message || 'Invalid login credentials')
+      console.error('Login error:', error)
+      setError('An unexpected error occurred')
     } finally {
       setLoading(false)
     }
