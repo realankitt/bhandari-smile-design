@@ -18,13 +18,20 @@ export default function AdminLogin() {
     setError('')
 
     try {
+      // Verify it's the admin email
+      if (email !== ADMIN_EMAIL) {
+        setError('Invalid admin email')
+        return
+      }
+
+      // Attempt login
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password
       })
 
       if (error) {
-        console.error('Supabase auth error:', error)
+        console.error('Login error details:', error)
         setError(error.message)
         return
       }
@@ -34,15 +41,12 @@ export default function AdminLogin() {
         return
       }
 
-      if (data.user.email !== ADMIN_EMAIL) {
-        setError('Unauthorized access')
-        return
-      }
-
+      // Success - navigate to admin
       navigate('/admin')
+
     } catch (error: any) {
-      console.error('Login error:', error)
-      setError('An unexpected error occurred')
+      console.error('Unexpected error:', error)
+      setError('Login failed - please try again')
     } finally {
       setLoading(false)
     }
