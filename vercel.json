@@ -1,7 +1,8 @@
 {
   "rewrites": [
-    { "source": "/admin/:path*", "destination": "/admin/:path*" },
-    { "source": "/admin",        "destination": "/admin/index.html" },
-    { "source": "/(.*)",         "destination": "/index.html" }
+    { "source": "/admin/config.yml", "destination": "/admin/config.yml" },
+    { "source": "/admin/:path*",     "destination": "/admin/:path*"     },
+    { "source": "/admin",            "destination": "/admin/index.html"},
+    { "source": "/(.*)",             "destination": "/index.html"       }
   ]
 }
