@@ -3,11 +3,13 @@
   <head>
     <meta charset="utf-8" />
     <title>Content Editor</title>
-    <!-- Auto-init script: Netlify CMS will fetch config.yml and mount itself -->
-    <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
+    <!-- No CMS script here -->
   </head>
   <body>
-    <!-- CMS injects its React app here -->
+    <!-- The CMS will mount here -->
     <div id="nc-root"></div>
+
+    <!-- Load the CMS **after** the mount node exists -->
+    <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
   </body>
 </html>
