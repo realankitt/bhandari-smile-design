@@ -7,6 +7,7 @@ import NotFound from './pages/NotFound';
 import { AdminLayout } from './components/admin/AdminLayout';
 import AdminLogin from './pages/admin/Login';
 import NewBlog from './pages/NewBlog';
+import { Dashboard } from '@/components/admin/Dashboard';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -30,7 +31,7 @@ function App() {
 
           {/* Protected admin routes */}
           <Route path="/admin" element={<AdminLayout />}>
-            <Route index element={<BlogPage />} />
+            <Route index element={<Dashboard />} />
             <Route path="new" element={<NewBlog />} />
           </Route>
 
