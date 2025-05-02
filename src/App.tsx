@@ -7,6 +7,7 @@ import BlogPage from './pages/Blog';
 import BlogArticle from './pages/BlogArticle';
 import NotFound from './pages/NotFound';
 import { AuthLayout } from './components/auth/AuthLayout';
+import AuthCallback from './pages/AuthCallback';
 
 const queryClient = new QueryClient({
   defaultOptions: {
