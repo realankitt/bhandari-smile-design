@@ -5,6 +5,9 @@ import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { ADMIN_EMAIL } from '@/lib/constants'
 
+console.log('Supabase URL:', import.meta.env.VITE_SUPABASE_URL ? 'Set' : 'Missing')
+console.log('Supabase Key:', import.meta.env.VITE_SUPABASE_ANON_KEY ? 'Set' : 'Missing')
+
 export default function AdminLogin() {
   const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
@@ -16,18 +19,9 @@ export default function AdminLogin() {
     e.preventDefault()
     setLoading(true)
     setError('')
-    console.log('Attempting login with:', email)
+    console.log('Attempting login with:', ADMIN_EMAIL)
 
     try {
-      // Check Supabase connection
-      const { data: { user }, error: userError } = await supabase.auth.getUser()
-      if (userError) {
-        console.error('Supabase connection error:', userError)
-        setError('Could not connect to authentication service')
-        return
-      }
-
-      // Attempt login
       const { data, error } = await supabase.auth.signInWithPassword({
         email: ADMIN_EMAIL,
         password
@@ -35,11 +29,7 @@ export default function AdminLogin() {
 
       if (error) {
         console.error('Auth error:', error)
-        if (error.message.includes('Invalid login credentials')) {
-          setError('Invalid password')
-        } else {
-          setError(error.message)
-        }
+        setError(error.message)
         return
       }
 
