@@ -16,6 +16,7 @@ export default function AdminLogin() {
     e.preventDefault()
     setLoading(true)
     setError('')
+    console.log('Attempting login with:', email) // Debug log
 
     try {
       // Verify it's the admin email
@@ -24,6 +25,7 @@ export default function AdminLogin() {
         return
       }
 
+      console.log('Calling Supabase auth...') // Debug log
       // Attempt login
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
@@ -31,11 +33,12 @@ export default function AdminLogin() {
       })
 
       if (error) {
-        console.error('Login error details:', error)
+        console.error('Supabase auth error:', error) // Detailed error log
         setError(error.message)
         return
       }
 
+      console.log('Auth response:', data) // Debug log
       if (!data.user) {
         setError('No user data returned')
         return
@@ -45,7 +48,7 @@ export default function AdminLogin() {
       navigate('/admin')
 
     } catch (error: any) {
-      console.error('Unexpected error:', error)
+      console.error('Login error:', error) // Detailed error log
       setError('Login failed - please try again')
     } finally {
       setLoading(false)
