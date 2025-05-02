@@ -72,16 +72,21 @@ export function BlogEditor() {
     setLoading(true)
 
     try {
-      // Log environment variables (don't include in production)
-      console.log('Supabase URL:', import.meta.env.VITE_SUPABASE_URL ? 'Set' : 'Missing')
-      console.log('Supabase Key:', import.meta.env.VITE_SUPABASE_ANON_KEY ? 'Set' : 'Missing')
+      // Verify connection
+      const { data: { session }, error: sessionError } = await supabase.auth.getSession()
+      if (sessionError) {
+        throw new Error(`Auth error: ${sessionError.message}`)
+      }
+      if (!session) {
+        throw new Error('Not authenticated')
+      }
 
       const slug = formData.title
         .toLowerCase()
         .replace(/[^a-z0-9]+/g, '-')
         .replace(/(^-|-$)/g, '')
 
-      const { error } = await supabase
+      const { error: insertError } = await supabase
         .from('blogs')
         .insert([{
           ...formData,
@@ -89,15 +94,15 @@ export function BlogEditor() {
           published_at: new Date().toISOString()
         }])
 
-      if (error) {
-        console.error('Supabase error:', error) // Detailed error logging
-        throw error
+      if (insertError) {
+        console.error('Insert error:', insertError)
+        throw new Error(`Database error: ${insertError.message}`)
       }
 
       navigate(`/blog/${slug}`)
     } catch (error) {
       console.error('Error creating post:', error)
-      alert('Failed to create post: ' + (error as Error).message)
+      alert(`Failed to create post: ${error instanceof Error ? error.message : 'Unknown error'}`)
     } finally {
       setLoading(false)
     }

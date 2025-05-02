@@ -1,8 +1,5 @@
 {
   "rewrites": [
-    { "source": "/admin/config.yml", "destination": "/admin/config.yml" },
-    { "source": "/admin/:path*", "destination": "/admin/:path*" },
-    { "source": "/admin", "destination": "/admin/index.html" },
     { "source": "/(.*)", "destination": "/index.html" }
   ],
   "headers": [
@@ -11,8 +8,12 @@
       "headers": [
         { "key": "Access-Control-Allow-Origin", "value": "*" },
         { "key": "Access-Control-Allow-Methods", "value": "GET,OPTIONS,PATCH,DELETE,POST,PUT" },
-        { "key": "Access-Control-Allow-Headers", "value": "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version" }
+        { "key": "Access-Control-Allow-Headers", "value": "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, Authorization" }
       ]
     }
-  ]
+  ],
+  "env": {
+    "VITE_SUPABASE_URL": "https://pmlilhiwuhowtbusuenc.supabase.co",
+    "VITE_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBtbGlsaGl3dWhvd3RidXN1ZW5jIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU5MTczMjYsImV4cCI6MjA2MTQ5MzMyNn0.cHHn99vBikk55B0I015qvRktjDpbG9RHaIZqSxt6vlg"
+  }
 }
