@@ -1,7 +1,7 @@
 import { defineConfig } from "tinacms";
 
-// Get branch from environment or default to main
-const branch = process.env.GITHUB_BRANCH || "remake";
+// Using main branch
+const branch = "main";
 
 export default defineConfig({
   branch,
