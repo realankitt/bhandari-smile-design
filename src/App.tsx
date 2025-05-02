@@ -17,7 +17,7 @@ const queryClient = new QueryClient({
 
 const cms = new TinaCMS({
   clientId: process.env.NEXT_PUBLIC_TINA_CLIENT_ID || '', // Updated to match .env
-  branch: process.env.GITHUB_BRANCH || 'main',
+  branch: 'main', // Explicitly set branch
   token: process.env.TINA_TOKEN, // Updated to match .env
   mediaStore: async () => {
     const pack = await import('next-tinacms-cloudinary');
