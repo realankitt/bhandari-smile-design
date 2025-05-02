@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Navigate, Outlet } from 'react-router-dom'
 import { supabase } from '@/lib/supabase'
 
-const ADMIN_EMAIL = 'dedsecretr0680@gmail.com' // Your admin email
+const ADMIN_EMAIL = 'dedsecretr0680@gmail.com' // Make sure this matches exactly
 
 export function AdminLayout() {
   const [isAdmin, setIsAdmin] = useState<boolean | null>(null)

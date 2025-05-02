@@ -17,15 +17,26 @@ export default function AdminLogin() {
     setError('')
 
     try {
-      const { error } = await supabase.auth.signInWithPassword({
+      const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password
       })
 
-      if (error) throw error
+      if (error) {
+        // Show the actual error message for debugging
+        setError(error.message)
+        throw error
+      }
+      
+      if (data?.user?.email !== ADMIN_EMAIL) {
+        setError('Unauthorized access')
+        return
+      }
+
       navigate('/admin')
-    } catch (error) {
-      setError('Invalid login credentials')
+    } catch (error: any) {
+      console.error('Login error:', error) // Add debug logging
+      setError(error.message || 'Invalid login credentials')
     } finally {
       setLoading(false)
     }
