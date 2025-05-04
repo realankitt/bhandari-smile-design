@@ -1,90 +1,56 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { format } from 'date-fns';
-import { Calendar, Clock, User } from 'lucide-react';
+import { Calendar, ChevronRight } from 'lucide-react';
+import { Blog } from '../api/blogs';
 
 interface BlogCardProps {
-  id: string;
-  title: string;
-  excerpt: string;
-  slug: string;
-  featuredImage: string | null;
-  authorName: string;
-  createdAt: string;
-  className?: string;
+  blog: Blog;
 }
 
-const BlogCard: React.FC<BlogCardProps> = ({
-  id,
-  title,
-  excerpt,
-  slug,
-  featuredImage,
-  authorName,
-  createdAt,
-  className = '',
-}) => {
-  const formattedDate = format(new Date(createdAt), 'MMM d, yyyy');
-  
+const BlogCard: React.FC<BlogCardProps> = ({ blog }) => {
   return (
-    <div className={`bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg ${className}`}>
-      <Link to={`/blog/${slug}`}>
-        {featuredImage ? (
+    <div className="bg-white rounded-lg shadow-md overflow-hidden transform transition-transform duration-300 hover:scale-[1.02] hover:shadow-lg">
+      <Link to={`/blogs/${blog.slug}`}>
+        {blog.cover_image ? (
           <div className="relative h-48 overflow-hidden">
-            <img
-              src={featuredImage}
-              alt={title}
-              className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+            <img 
+              src={blog.cover_image} 
+              alt={blog.title} 
+              className="w-full h-full object-cover"
             />
           </div>
         ) : (
           <div className="h-48 bg-gray-200 flex items-center justify-center">
-            <span className="text-gray-400">No image available</span>
+            <span className="text-gray-400">No Image</span>
           </div>
         )}
       </Link>
       
-      <div className="p-5">
-        <div className="flex items-center text-sm text-gray-500 mb-3">
-          <div className="flex items-center mr-4">
-            <Calendar size={14} className="mr-1" />
-            <span>{formattedDate}</span>
-          </div>
-          <div className="flex items-center">
-            <User size={14} className="mr-1" />
-            <span>{authorName}</span>
-          </div>
+      <div className="p-6">
+        <div className="flex items-center mb-4">
+          <Calendar size={16} className="text-blue-500 mr-2" />
+          <time className="text-sm text-gray-500">
+            {format(new Date(blog.created_at), 'MMMM d, yyyy')}
+          </time>
         </div>
         
-        <Link to={`/blog/${slug}`}>
-          <h3 className="text-xl font-semibold mb-2 text-gray-800 hover:text-blue-600 transition-colors duration-200">
-            {title}
-          </h3>
+        <Link to={`/blogs/${blog.slug}`}>
+          <h2 className="text-xl font-bold text-gray-800 mb-3 line-clamp-2 hover:text-blue-600 transition-colors">
+            {blog.title}
+          </h2>
         </Link>
         
         <p className="text-gray-600 mb-4 line-clamp-3">
-          {excerpt}
+          {blog.excerpt || blog.content.substring(0, 120).replace(/<[^>]*>/g, '')}...
         </p>
         
-        <Link
-          to={`/blog/${slug}`}
-          className="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium"
+        <Link 
+          to={`/blogs/${blog.slug}`}
+          className="inline-flex items-center text-blue-600 font-medium hover:text-blue-800 transition-colors"
         >
           Read More
-          <svg
-            className="ml-1 w-4 h-4"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M14 5l7 7m0 0l-7 7m7-7H3"
-            ></path>
-          </svg>
+          <ChevronRight size={18} className="ml-1" />
         </Link>
       </div>
     </div>

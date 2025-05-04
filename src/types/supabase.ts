@@ -16,11 +16,12 @@ export interface Database {
           updated_at: string
           title: string
           content: string
-          excerpt: string
-          slug: string
+          excerpt: string | null
+          author_id: string | null
           published: boolean
-          featured_image: string | null
-          author_id: string
+          slug: string
+          cover_image: string | null
+          category_id: string | null
         }
         Insert: {
           id?: string
@@ -28,11 +29,12 @@ export interface Database {
           updated_at?: string
           title: string
           content: string
-          excerpt: string
-          slug: string
+          excerpt?: string | null
+          author_id?: string | null
           published?: boolean
-          featured_image?: string | null
-          author_id: string
+          slug: string
+          cover_image?: string | null
+          category_id?: string | null
         }
         Update: {
           id?: string
@@ -40,65 +42,61 @@ export interface Database {
           updated_at?: string
           title?: string
           content?: string
-          excerpt?: string
-          slug?: string
+          excerpt?: string | null
+          author_id?: string | null
           published?: boolean
-          featured_image?: string | null
-          author_id?: string
+          slug?: string
+          cover_image?: string | null
+          category_id?: string | null
         }
       }
-      blog_tags: {
+      categories: {
+        Row: {
+          id: string
+          name: string
+          slug: string
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          name: string
+          slug: string
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          name?: string
+          slug?: string
+          created_at?: string
+        }
+      }
+      blog_media: {
         Row: {
           id: string
           blog_id: string
-          tag_id: string
+          media_url: string
+          media_type: string
+          created_at: string
+          caption: string | null
+          alt_text: string | null
         }
         Insert: {
           id?: string
           blog_id: string
-          tag_id: string
+          media_url: string
+          media_type: string
+          created_at?: string
+          caption?: string | null
+          alt_text?: string | null
         }
         Update: {
           id?: string
           blog_id?: string
-          tag_id?: string
-        }
-      }
-      tags: {
-        Row: {
-          id: string
-          name: string
-          slug: string
-        }
-        Insert: {
-          id?: string
-          name: string
-          slug: string
-        }
-        Update: {
-          id?: string
-          name?: string
-          slug?: string
-        }
-      }
-      authors: {
-        Row: {
-          id: string
-          name: string
-          bio: string | null
-          avatar_url: string | null
-        }
-        Insert: {
-          id: string
-          name: string
-          bio?: string | null
-          avatar_url?: string | null
-        }
-        Update: {
-          id?: string
-          name?: string
-          bio?: string | null
-          avatar_url?: string | null
+          media_url?: string
+          media_type?: string
+          created_at?: string
+          caption?: string | null
+          alt_text?: string | null
         }
       }
     }
