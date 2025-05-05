@@ -1,61 +1,42 @@
-import { BlogHeader } from "../components/blog/BlogHeader";
-import { Footer } from "../components/layout/Footer";
-import { BlogCard } from "../components/blog/BlogCard";
-import { useBlogs } from "@/hooks/use-blogs";
-import { Helmet } from "react-helmet";
+import { useEffect, useState } from 'react'
+import { supabase } from '@/lib/supabase'
 
-const BlogPage = () => {
-  const { data: blogs, isLoading, error } = useBlogs();
+export default function BlogPage() {
+  const [posts, setPosts]   = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError]     = useState<string | null>(null)
 
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-dental-600"></div>
-      </div>
-    );
-  }
+  useEffect(() => {
+    async function load() {
+      const { data, error } = await supabase
+        .from('blog_posts')
+        .select('*')
+        .order('created_at', { ascending: false })
 
-  if (error) {
-    console.error('Failed to load blog posts');
-    return <div>Error loading blogs</div>;
-  }
+      if (error) {
+        setError(error.message)
+      } else {
+        setPosts(data!)
+      }
+      setLoading(false)
+    }
+    load()
+  }, [])
+
+  if (loading) return <p>Loading…</p>
+  if (error)   return <p>Error: {error}</p>
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <Helmet>
-        <title>Blog | Bhandari Dental Clinic</title>
-        <meta name="description" content="Read the latest articles about dental care, treatments, and oral health tips from Bhandari Dental Clinic." />
-      </Helmet>
-      <BlogHeader />
-      <main className="flex-grow pt-28 pb-20">
-        <div className="container mx-auto px-4">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <h1 className="heading-lg mb-4">
-              Dental Health <span className="gradient-text">Blog</span>
-            </h1>
-            <p className="text-gray-600">
-              Expert insights, tips, and information about dental care, treatments, and maintaining your perfect smile.
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {blogs?.map((post) => (
-              <BlogCard
-                key={post.id}
-                title={post.title}
-                excerpt={post.excerpt}
-                date={new Date(post.published_at).toLocaleDateString()}
-                image={post.image}
-                category={post.category}
-                slug={post.slug}
-              />
-            ))}
-          </div>
-        </div>
-      </main>
-      <Footer />
+    <div className="space-y-6">
+      {posts.map(post => (
+        <article key={post.id} className="p-4 border rounded">
+          <h2 className="text-xl font-bold">{post.title}</h2>
+          <div
+            className="prose mt-2"
+            dangerouslySetInnerHTML={{ __html: post.content }}
+          />
+        </article>
+      ))}
     </div>
-  );
-};
-
-export default BlogPage;
+  )
+}
