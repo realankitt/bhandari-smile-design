@@ -6,7 +6,7 @@ import BlogArticle from './pages/BlogArticle';
 import NotFound from './pages/NotFound';
 import { AdminLayout } from './components/admin/AdminLayout';
 import AdminLogin from './pages/admin/Login';
-import NewPost from './NewPost';  // updated import to match your existing component
+import NewBlog from './pages/NewBlog';  // updated to match your NewBlog.tsx filename
 import { Dashboard } from '@/components/admin/Dashboard';
 
 const queryClient = new QueryClient({
@@ -30,9 +30,10 @@ function App() {
           <Route path="/admin/login" element={<AdminLogin />} />
 
           {/* Protected admin routes */}
-          <Route path="/admin" element={<AdminLayout />}>
+          <Route path="/admin" element={<AdminLayout />}
+          >
             <Route index element={<Dashboard />} />
-            <Route path="new" element={<NewPost />} />  {/* now points to NewPost */}
+            <Route path="new" element={<NewBlog />} />
           </Route>
 
           <Route path="*" element={<NotFound />} />
