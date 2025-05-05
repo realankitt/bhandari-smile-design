@@ -1,25 +1,56 @@
-import { Helmet } from 'react-helmet'
-import { BlogHeader } from '@/components/blog/BlogHeader'
-import { BlogEditor } from '@/components/blog/BlogEditor'
-import { Footer } from '@/components/layout/Footer'
+import { supabase } from '@/lib/supabase'
+import { useState } from 'react'
 
-export default function NewBlog() {
+export default function NewPost() {
+  const [title, setTitle] = useState('')
+  const [content, setContent] = useState('')
+  const [loading, setLoading] = useState(false)
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setLoading(true)
+
+    // ensure user is logged in
+    const { data: { session } } = await supabase.auth.getSession()
+    if (!session) {
+      alert('Please log in first.')
+      setLoading(false)
+      return
+    }
+
+    const { error } = await supabase
+      .from('blog_posts')
+      .insert([{ title, content }])
+
+    setLoading(false)
+    if (error) {
+      console.error(error)
+      alert('Oops, could not save post.')
+    } else {
+      // e.g. redirect or clear form
+      setTitle('')
+      setContent('')
+      // router.push('/blog')
+    }
+  }
+
   return (
-    <div className="min-h-screen flex flex-col bg-white">
-      <Helmet>
-        <title>New Blog Post | Bhandari Dental Clinic</title>
-      </Helmet>
-      
-      <BlogHeader />
-      
-      <main className="flex-grow pt-28 pb-16">
-        <div className="container mx-auto px-4">
-          <h1 className="heading-lg text-center mb-8">Create New Blog Post</h1>
-          <BlogEditor />
-        </div>
-      </main>
-      
-      <Footer />
-    </div>
+    <form onSubmit={handleSubmit}>
+      <input
+        value={title}
+        onChange={e => setTitle(e.target.value)}
+        placeholder="Title"
+        required
+      />
+      <textarea
+        value={content}
+        onChange={e => setContent(e.target.value)}
+        placeholder="Your post…"
+        required
+      />
+      <button type="submit" disabled={loading}>
+        {loading ? 'Posting…' : 'Post'}
+      </button>
+    </form>
   )
 }
