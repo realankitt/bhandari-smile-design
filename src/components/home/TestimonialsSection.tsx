@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Card, CardContent } from "../ui/card";
 import { StarIcon } from "lucide-react";
@@ -15,8 +14,8 @@ type TestimonialProps = {
 
 function Testimonial({ name, platform, text, rating, date, imgSrc }: TestimonialProps) {
   return (
-    <Card className="h-full border border-gray-100 hover:shadow-md transition-shadow">
-      <CardContent className="p-6 flex flex-col h-full">
+    <Card className="h-full border border-gray-100 hover:shadow-md transition-shadow rounded-xl">
+      <CardContent className="p-6 flex flex-col h-full rounded-xl">
         <div className="flex items-center gap-2 mb-4">
           {[...Array(5)].map((_, i) => (
             <StarIcon 
