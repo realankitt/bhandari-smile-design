@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { supabase } from '@/lib/supabase'
-import { BlogCard } from '@/components/BlogCard'
+import { BlogCard } from '@/components/blog/BlogCard'
 
 export default function BlogPage() {
   const [posts, setPosts]     = useState<any[]>([])

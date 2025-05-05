@@ -1,90 +1,103 @@
-import { useParams, useNavigate } from "react-router-dom"
-import { BlogHeader } from "../components/blog/BlogHeader"
-import { Footer } from "../components/layout/Footer"
-import { Helmet } from "react-helmet"
-import { CalendarIcon, ArrowLeftIcon } from "lucide-react"
-import { useBlog } from "@/hooks/use-blogs"
+import React, { useEffect, useState } from 'react'
+import { useParams, Link } from 'react-router-dom'
+import { supabase } from '@/lib/supabase'
 
-const BlogArticle = () => {
-  const { slug } = useParams<{ slug: string }>();
-  const navigate = useNavigate();
-  const { data: article, isLoading, error } = useBlog(slug || '');
+export default function BlogArticle() {
+  const { slug } = useParams()
+  const [post, setPost] = useState(null)
+  const [loading, setLoading] = useState(true)
 
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-dental-600"></div>
-      </div>
-    );
+  useEffect(() => {
+    async function load() {
+      const { data, error } = await supabase
+        .from('blog_posts')
+        .select('title, cover_image, content, category_slug, created_at')
+        .or(`slug.eq.${slug},id.eq.${slug}`)
+        .single()
+
+      if (error) {
+        console.error('Error fetching post:', error)
+      } else {
+        setPost(data)
+      }
+      setLoading(false)
+    }
+    load()
+  }, [slug])
+
+  if (loading) {
+    return <p className="p-8">Loading article…</p>
   }
 
-  if (error || !article) {
+  if (!post) {
     return (
-      <div className="min-h-screen flex flex-col">
-        <BlogHeader />
-        <main className="flex-grow flex items-center justify-center pt-32 pb-20 bg-gray-50">
-          <div className="text-center">
-            <h1 className="heading-lg mb-4">Article Not Found</h1>
-            <p className="text-gray-600 mb-6">
-              The blog article you are looking for does not exist.
-            </p>
-            <button
-              className="inline-flex items-center gap-2 px-4 py-2 bg-dental-500 text-white rounded-full hover:bg-dental-600"
-              onClick={() => navigate("/blog")}
-            >
-              <ArrowLeftIcon size={18} />
-              Back to Blog
-            </button>
-          </div>
-        </main>
-        <Footer />
+      <div className="text-center py-16">
+        <h1 className="text-3xl font-bold mb-4">Article Not Found</h1>
+        <p className="text-gray-600 mb-6">The blog article you are looking for does not exist.</p>
+        <Link to="/blog" className="inline-block px-4 py-2 bg-blue-500 text-white rounded">
+          ← Back to Blog
+        </Link>
       </div>
-    );
+    )
+  }
+
+  // Parse Editor.js JSON content into simple HTML elements
+  let contentBlocks = []
+  try {
+    const json = JSON.parse(post.content)
+    contentBlocks = (json.blocks || []).map(block => {
+      switch (block.type) {
+        case 'paragraph':
+          return <p key={block.id}>{block.data.text}</p>
+        case 'header':
+          const Tag = `h${block.data.level}` as keyof JSX.IntrinsicElements
+          return <Tag key={block.id}>{block.data.text}</Tag>
+        case 'list':
+          if (block.data.style === 'ordered') {
+            return (
+              <ol key={block.id} className="ml-6 list-decimal">
+                {block.data.items.map((item, i) => <li key={i}>{item}</li>)}
+              </ol>
+            )
+          } else {
+            return (
+              <ul key={block.id} className="ml-6 list-disc">
+                {block.data.items.map((item, i) => <li key={i}>{item}</li>)}
+              </ul>
+            )
+          }
+        case 'image':
+          return (
+            <img
+              key={block.id}
+              src={block.data.file.url}
+              alt={block.data.caption || post.title}
+              className="w-full object-cover my-6"
+            />
+          )
+        default:
+          return null
+      }
+    })
+  } catch (e) {
+    contentBlocks = [<p key="error">Error parsing content</p>]
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-white">
-      <Helmet>
-        <title>{article.title} | Bhandari Dental Clinic</title>
-        <meta name="description" content={article.excerpt} />
-      </Helmet>
-      <BlogHeader />
-      <main className="flex-grow pt-28 pb-16">
-        <div className="container mx-auto px-4 max-w-3xl">
-          <button
-            className="flex items-center gap-2 text-dental-600 hover:text-dental-700 text-sm font-medium mb-6"
-            onClick={() => navigate("/blog")}
-          >
-            <ArrowLeftIcon size={16} />
-            Back to all articles
-          </button>
-          <div className="rounded-2xl overflow-hidden shadow mb-8 h-64 bg-gray-100">
-            <img
-              src={article.image}
-              alt={article.title}
-              className="w-full h-full object-cover"
-            />
-          </div>
-          <span className="mb-3 inline-block bg-dental-100 text-dental-600 text-xs font-semibold px-3 py-1 rounded-full">
-            {article.category}
-          </span>
-          <h1 className="heading-lg mb-3">{article.title}</h1>
-          <div className="flex items-center gap-4 text-gray-500 text-sm mb-10">
-            <span className="flex items-center gap-1">
-              <CalendarIcon size={16} />
-              {new Date(article.published_at).toLocaleDateString()}
-            </span>
-            <span>•</span>
-            <span>By {article.author}</span>
-          </div>
-          <article className="prose prose-blue max-w-none prose-img:rounded-lg">
-            <div dangerouslySetInnerHTML={{ __html: article.content }} />
-          </article>
-        </div>
-      </main>
-      <Footer />
-    </div>
+    <article className="max-w-3xl mx-auto p-8 space-y-6">
+      {post.cover_image && (
+        <img
+          src={post.cover_image}
+          alt={post.title}
+          className="w-full h-64 object-cover rounded-lg"
+        />
+      )}
+      <h1 className="text-4xl font-bold">{post.title}</h1>
+      <p className="text-sm text-gray-500">
+        {new Date(post.created_at).toLocaleDateString(undefined, { month: 'long', day: 'numeric', year: 'numeric' })}
+         &nbsp;|&nbsp; {post.category_slug.replace(/-/g, ' ')}
+      </p>
+      <div className="prose prose-lg">{contentBlocks}</div>
+    </article>
   )
 }
-
-export default BlogArticle
