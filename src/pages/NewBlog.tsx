@@ -23,12 +23,69 @@ export default function NewBlog() {
   const [loading, setLoading] = useState(false);
   const ejInstance = useRef<EditorJS | null>(null);
 
-  // load categories
+    // load categories
   useEffect(() => {
-    supabase
-      .from('categories')
-      .select('category_name, url_slug')
-      .then(({ data }) => data && setCategories(data));
+    async function fetchCategories() {
+      const { data, error, status } = await supabase
+        .from('categories')
+        .select('category_name, url_slug')
+      if (error) {
+        if (status === 404) {
+          console.error('Categories table not found. Check your table name in Supabase.')
+        } else {
+          console.error('Error loading categories:', error)
+        }
+        return
+      }
+      setCategories(data)
+    }
+    fetchCategories()
+
+    if (!ejInstance.current) {
+      const editor = new EditorJS({
+        holder: 'editorjs',
+        placeholder: 'Start writing your post...',
+        tools: {
+          header: Header,
+          list: { class: ListTool, inlineToolbar: true },
+          embed: { class: Embed, inlineToolbar: true },
+          table: { class: TableTool, inlineToolbar: true },
+          image: {
+            class: ImageToolJS,
+            config: {
+              uploader: {
+                async uploadByFile(file: File) {
+                  const ext = file.name.split('.').pop();
+                  const fileName = `post-images/${Date.now()}.${ext}`;
+                  const { error } = await supabase
+                    .storage
+                    .from('blog-images')
+                    .upload(fileName, file);
+                  if (error) throw error;
+                  const { publicURL } = supabase
+                    .storage
+                    .from('blog-images')
+                    .getPublicUrl(fileName);
+                  return { success: 1, file: { url: publicURL! } };
+                }
+              }
+            }
+          }
+        },
+        onChange: async () => {
+          const data = await editor.save();
+          setEditorData(data);
+        }
+      });
+      ejInstance.current = editor;
+    }
+
+    return () => {
+      ejInstance.current?.destroy();
+        ejInstance.current = null;
+    };
+  }, []);
+) => data && setCategories(data));
 
     if (!ejInstance.current) {
       const editor = new EditorJS({
