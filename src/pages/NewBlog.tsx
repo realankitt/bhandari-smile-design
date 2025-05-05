@@ -1,6 +1,21 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useEffect, useRef, useState, ChangeEvent } from 'react'
+import EditorJS, { OutputData } from '@editorjs/editorjs'
+import Header from '@editorjs/header'
+import List from '@editorjs/list'
+import Embed from '@editorjs/embed'
+import Table from '@editorjs/table'
+import ImageTool from '@editorjs/image'
 import { supabase } from '@/lib/supabase'
-import ReactQuill from 'react-quill'
+import {
+  IconH1,
+  IconList,
+  IconImage,
+  IconVideo,
+  IconTable,
+  ChevronLeft,
+  ChevronRight
+} from 'lucide-react'
+import { Button } from '../ui/button'
 
 interface Category {
   category_name: string
@@ -8,189 +23,182 @@ interface Category {
 }
 
 export default function NewBlog() {
+  const [editorData, setEditorData] = useState<OutputData>({ blocks: [] })
   const [title, setTitle] = useState('')
-  const [content, setContent] = useState('')      // HTML string
-  const [categorySlug, setCategorySlug] = useState('')
   const [categories, setCategories] = useState<Category[]>([])
-  const [coverURL, setCoverURL] = useState<string>('')
+  const [categorySlug, setCategorySlug] = useState('')
+  const [coverURL, setCoverURL] = useState('')
   const [loading, setLoading] = useState(false)
-  const quillRef = useRef<ReactQuill>(null)
+  const ejInstance = useRef<EditorJS>()
 
-  // load categories for dropdown
+  // load categories
   useEffect(() => {
-    async function fetchCategories() {
-      const { data, error } = await supabase
-        .from('categories')
-        .select('category_name, url_slug')
-      if (error) {
-        console.error('Error loading categories:', error)
-      } else if (data) {
-        setCategories(data)
-      }
+    supabase
+      .from('categories')
+      .select('category_name, url_slug')
+      .then(({ data }) => data && setCategories(data))
+
+    if (!ejInstance.current) {
+      const editor = new EditorJS({
+        holder: 'editorjs',
+        placeholder: 'Start writing your post...',
+        tools: {
+          header: Header,
+          list: { class: List, inlineToolbar: true },
+          embed: { class: Embed, inlineToolbar: true },
+          table: { class: Table, inlineToolbar: true },
+          image: {
+            class: ImageTool,
+            config: {
+              uploader: {
+                async uploadByFile(file: File) {
+                  const ext = file.name.split('.').pop()
+                  const fileName = `post-images/${Date.now()}.${ext}`
+                  const { error } = await supabase
+                    .storage
+                    .from('blog-images')
+                    .upload(fileName, file)
+                  if (error) throw error
+                  const { publicURL } = supabase
+                    .storage
+                    .from('blog-images')
+                    .getPublicUrl(fileName)
+                  return { success: 1, file: { url: publicURL! } }
+                }
+              }
+            }
+          }
+        },
+        onChange: async () => {
+          const data = await editor.save()
+          setEditorData(data)
+        }
+      })
+      ejInstance.current = editor
     }
-    fetchCategories()
+
+    return () => {
+      ejInstance.current?.destroy()
+      ejInstance.current = undefined
+    }
   }, [])
 
-  // Custom image handler: uploads to Supabase Storage then inserts URL
-  const imageHandler = () => {
-    const input = document.createElement('input')
-    input.setAttribute('type', 'file')
-    input.setAttribute('accept', 'image/*')
-    input.click()
-    input.onchange = async () => {
-      const file = input.files![0]
-      const fileExt = file.name.split('.').pop()
-      const fileName = `${Date.now()}.${fileExt}`
-      setLoading(true)
-
-      const { error: uploadErr } = await supabase
-        .storage
-        .from('blog-images')
-        .upload(fileName, file)
-
-      if (uploadErr) {
-        console.error(uploadErr)
-        setLoading(false)
-        return
-      }
-
-      const { publicURL, error: urlErr } = supabase
-        .storage
-        .from('blog-images')
-        .getPublicUrl(fileName)
-
-      if (urlErr) {
-        console.error(urlErr)
-        setLoading(false)
-        return
-      }
-
-      const quill = (quillRef.current as any)?.getEditor()
-      const range = quill.getSelection(true)
-      quill.insertEmbed(range.index, 'image', publicURL)
-      setLoading(false)
-    }
+  const insertBlock = (tool: string) => {
+    ejInstance.current?.blocks.insert(tool, {}, {}, undefined, true)
   }
 
-  // Quill toolbar config
-  const modules = {
-    toolbar: {
-      container: [
-        [{ header: [1, 2, false] }],
-        ['bold', 'italic', 'underline'],
-        [{ list: 'ordered' }, { list: 'bullet' }],
-        ['link', 'image'],
-        ['clean'],
-      ],
-      handlers: {
-        image: imageHandler,
-      },
-    },
-  }
-
-  // handle cover image upload
-  const handleCoverChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleCoverChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (!file) return
-    const fileExt = file.name.split('.').pop()
-    const fileName = `cover-${Date.now()}.${fileExt}`
+    const ext = file.name.split('.').pop()
+    const fileName = `cover-${Date.now()}.${ext}`
     setLoading(true)
-
-    const { error: uploadErr } = await supabase
+    const { error } = await supabase
       .storage
       .from('blog-covers')
       .upload(fileName, file)
-
-    if (uploadErr) {
-      console.error(uploadErr)
-      setLoading(false)
-      return
+    if (!error) {
+      const { publicURL } = supabase
+        .storage
+        .from('blog-covers')
+        .getPublicUrl(fileName)
+      setCoverURL(publicURL)
     }
-
-    const { publicURL } = supabase
-      .storage
-      .from('blog-covers')
-      .getPublicUrl(fileName)
-
-    setCoverURL(publicURL)
     setLoading(false)
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
-
     const { data: { session } } = await supabase.auth.getSession()
-    if (!session) {
-      alert('Please log in first.')
-      setLoading(false)
-      return
-    }
+    if (!session) return setLoading(false)
 
+    // You can store editorData JSON or convert to HTML as needed
     const { error } = await supabase
       .from('blog_posts')
-      .insert([{ title, content, category_slug: categorySlug, cover_image: coverURL }])
+      .insert([{ title, content: JSON.stringify(editorData), category_slug: categorySlug, cover_image: coverURL }])
 
     setLoading(false)
-    if (error) {
-      alert('Couldn’t publish your post.')
-      console.error(error)
-    } else {
-      alert('Published successfully!')
-      // optionally redirect to /blog
-    }
+    if (error) console.error(error)
+    else alert('Published successfully!')
   }
 
   return (
-    <form onSubmit={handleSubmit} className="p-4 space-y-4">
-      <input
-        className="w-full p-2 border"
-        placeholder="Post Title"
-        value={title}
-        onChange={e => setTitle(e.target.value)}
-        required
-      />
+    <div className="grid grid-cols-4 h-screen overflow-hidden">
+      {/* Sidebar */}
+      <aside className="col-span-1 p-4 bg-gray-100 space-y-4">
+        <button onClick={() => insertBlock('header')} className="p-2 bg-white rounded hover:bg-gray-200">
+          <IconH1 />
+        </button>
+        <button onClick={() => insertBlock('list')} className="p-2 bg-white rounded hover:bg-gray-200">
+          <IconList />
+        </button>
+        <button onClick={() => insertBlock('image')} className="p-2 bg-white rounded hover:bg-gray-200">
+          <IconImage />
+        </button>
+        <button onClick={() => insertBlock('embed')} className="p-2 bg-white rounded hover:bg-gray-200">
+          <IconVideo />
+        </button>
+        <button onClick={() => insertBlock('table')} className="p-2 bg-white rounded hover:bg-gray-200">
+          <IconTable />
+        </button>
+      </aside>
 
-      <label>Category</label>
-      <select
-        className="w-full p-2 border"
-        value={categorySlug}
-        onChange={e => setCategorySlug(e.target.value)}
-        required
-      >
-        <option value="">Select category</option>
-        {categories.map(c => (
-          <option key={c.url_slug} value={c.url_slug}>
-            {c.category_name}
-          </option>
-        ))}
-      </select>
+      {/* Main Editor */}
+      <main className="col-span-3 flex flex-col">
+        {/* Top bar */}
+        <header className="flex justify-between items-center p-4 border-b bg-white">
+          <div className="flex items-center space-x-2">
+            <span className="text-sm text-gray-500">Unpublished Changes</span>
+            <ChevronLeft className="cursor-pointer" />
+            <ChevronRight className="cursor-pointer" />
+          </div>
+          <div className="space-x-2">
+            <Button onClick={() => alert('Saved!')}>Save</Button>
+            <Button onClick={() => alert(JSON.stringify(editorData, null, 2))}>Preview</Button>
+            <Button onClick={handleSubmit} disabled={loading} variant="primary">
+              {loading ? 'Publishing...' : 'Publish'}
+            </Button>
+          </div>
+        </header>
 
-      <label>Cover Image</label>
-      <input
-        type="file"
-        accept="image/*"
-        onChange={handleCoverChange}
-      />
-      {coverURL && (
-        <img src={coverURL} alt="Cover preview" className="mt-2 w-48 rounded" />
-      )}
+        <div className="p-6 overflow-auto flex-1 bg-white space-y-6">
+          <input
+            className="w-full text-3xl font-bold border-b pb-2 focus:outline-none"
+            placeholder="Title..."
+            value={title}
+            onChange={e => setTitle(e.target.value)}
+          />
 
-      <ReactQuill
-        ref={quillRef}
-        value={content}
-        onChange={setContent}
-        modules={modules}
-        placeholder="Write your post here…"
-      />
+          <div className="flex space-x-4">
+            <select
+              className="flex-1 p-2 border rounded"
+              value={categorySlug}
+              onChange={e => setCategorySlug(e.target.value)}
+            >
+              <option value="">Select category</option>
+              {categories.map(c => (
+                <option key={c.url_slug} value={c.url_slug}>
+                  {c.category_name}
+                </option>
+              ))}
+            </select>
 
-      <button
-        type="submit"
-        disabled={loading}
-        className="px-4 py-2 bg-blue-500 text-white rounded"
-      >
-        {loading ? 'Saving…' : 'Publish'}
-      </button>
-    </form>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleCoverChange}
+              className="p-2 border rounded"
+            />
+          </div>
+
+          {coverURL && (
+            <img src={coverURL} alt="Cover" className="w-full h-64 object-cover rounded" />
+          )}
+
+          <div id="editorjs" className="flex-1 border rounded" />
+        </div>
+      </main>
+    </div>
   )
 }
