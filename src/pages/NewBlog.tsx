@@ -91,15 +91,24 @@ export default function NewBlog() {
     }
   }
 
-  const handleCoverChange = async e => {
+  const handleCoverChange = async (e) => {
     const file = e.target.files[0]
     if (!file) return
     const ext = file.name.split('.').pop()
     const fileName = `cover-${Date.now()}.${ext}`
     setLoading(true)
-    const { error } = await supabase.storage.from('blog-covers').upload(fileName, file)
-    if (!error) {
-      const { publicURL } = supabase.storage.from('blog-covers').getPublicUrl(fileName)
+    const { data, error } = await supabase
+      .storage
+      .from('blog-images')
+      .upload(fileName, file)
+    if (error) {
+      console.error('Cover upload error:', error)
+      alert('Couldn’t upload cover image. Please try again.')
+    } else {
+      const { publicURL } = supabase
+        .storage
+        .from('blog-images')
+        .getPublicUrl(fileName)
       setCoverURL(publicURL)
     }
     setLoading(false)
