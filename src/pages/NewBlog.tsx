@@ -5,16 +5,7 @@ import List from '@editorjs/list'
 import Embed from '@editorjs/embed'
 import Table from '@editorjs/table'
 import ImageTool from '@editorjs/image'
-import { supabase } from '@/lib/supabase'
-import {
-  IconH1,
-  IconList,
-  IconImage,
-  IconVideo,
-  IconTable,
-  ChevronLeft,
-  ChevronRight
-} from 'lucide-react'
+<Type />
 import { Button } from '@/components/ui/button'
 
 interface Category {
@@ -131,16 +122,16 @@ export default function NewBlog() {
           <IconH1 />
         </button>
         <button onClick={() => insertBlock('list')} className="p-2 bg-white rounded hover:bg-gray-200">
-          <IconList />
+          <List />
         </button>
         <button onClick={() => insertBlock('image')} className="p-2 bg-white rounded hover:bg-gray-200">
-          <IconImage />
+          <Image />
         </button>
         <button onClick={() => insertBlock('embed')} className="p-2 bg-white rounded hover:bg-gray-200">
-          <IconVideo />
+          <Video />
         </button>
         <button onClick={() => insertBlock('table')} className="p-2 bg-white rounded hover:bg-gray-200">
-          <IconTable />
+          <Table />
         </button>
       </aside>
 
